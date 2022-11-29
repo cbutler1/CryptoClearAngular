@@ -8,20 +8,5 @@ import { Coin } from './interfaces-coins';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  // title = 'CryptoClearFrontEnd';
-
-  topTwentyCoins: Coin[] = [];
-
-  constructor(private _service: CryptoServiceService) {}
-
-  ngOnInit(): void {
-    this.loadTopTwentyCoins();
-  }
-
-  loadTopTwentyCoins = (): void => {
-    this._service.getTopTwentyCoins().subscribe((data: Coin[]) => {
-      this.topTwentyCoins = data;
-      console.log(data);
-    });
-  };
+  title = 'CryptoClearFrontEnd';
 }

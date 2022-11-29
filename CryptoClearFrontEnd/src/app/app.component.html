@@ -1,8 +1,4 @@
-<ul>
-  <li *ngFor="let coin of topTwentyCoins">
-    {{ coin.name }} ({{ coin.symbol }}) -
-    {{ coin.current_price | currency }} ({{
-      coin.price_change_percentage_24h | number: '1.0-2'
-    }}%)
-  </li>
-</ul>
+<app-nav-bar></app-nav-bar>
+<div class="container p-3">
+  <router-outlet></router-outlet>
+</div>
