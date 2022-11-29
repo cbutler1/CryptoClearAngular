@@ -20,7 +20,7 @@
             <div class="col d-flex flex-column">
               <h5 class="card-text">Price Change:</h5>
               <p class="card-text">
-                {{ c.price_change_24h | currency }}
+                {{ c.price_change_24h | currency: 'USD':'symbol':'.2-6' }}
                 (<span
                   [ngStyle]="{
                     color: c.price_change_percentage_24h >= 0 ? 'green' : 'red'
@@ -31,7 +31,7 @@
               </p>
               <h5 class="card-text">Current Price:</h5>
               <p class="card-text">
-                {{ c.current_price | currency }}
+                {{ c.current_price | currency: 'USD':'symbol':'.2-6' }}
               </p>
             </div>
           </div>
