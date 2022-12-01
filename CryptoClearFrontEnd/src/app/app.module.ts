@@ -10,6 +10,9 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
 import { ResourcesComponent } from './resources/resources.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FormsModule } from '@angular/forms';
+import { ModalComponent } from './modal/modal.component';
+
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
   declarations: [
@@ -18,8 +21,9 @@ import { FormsModule } from '@angular/forms';
     PortfolioComponent,
     ResourcesComponent,
     NavBarComponent,
+    ModalComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, OverlayModule],
   providers: [],
   bootstrap: [AppComponent],
 })
