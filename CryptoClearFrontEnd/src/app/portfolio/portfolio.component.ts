@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CryptoServiceService } from '../crypto-service.service';
+import { Transaction } from '../interfaces';
 import { Coin } from '../interfaces-coins';
 
 @Component({
@@ -8,14 +10,18 @@ import { Coin } from '../interfaces-coins';
   styleUrls: ['./portfolio.component.css']
 })
 export class PortfolioComponent implements OnInit {
-currentPortfolio: Coin[] = [];
+currentPortfolio: Transaction[] = [];
 
   constructor(private _service: CryptoServiceService) { }
 
   ngOnInit(): void {
-  }
+    this.loadCurrentPortfolio(1)
+  };
 
-  loadCurrentPortfolio = (): void => {
-    return 
-  }
+  loadCurrentPortfolio = (userId: number): void => {
+    this._service.getTransactions(userId).subscribe((data: Transaction[]) => {
+      this.currentPortfolio = data;
+      console.log(data);
+  });
+}
 }

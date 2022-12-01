@@ -12,13 +12,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+      <tr *ngFor="let t of currentPortfolio">
+        <td>{{t.UserId}}</td>
+        <td>{{t.TransactionDate}}</td>
+        <td>{{t.CoinSymbol}}</td>
+        <td>{{t.Quantity}}</td>
+        <td>{{t.PurchasePrice}}</td>
+        <td>Current</td>
+        <td>calc %</td>
+        <td>input</td>
+        
       </tr>
     </tbody>
