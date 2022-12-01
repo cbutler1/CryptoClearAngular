@@ -16,6 +16,6 @@ currentPortfolio: Coin[] = [];
   }
 
   loadCurrentPortfolio = (): void => {
-    
+    return 
   }
 }
