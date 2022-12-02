@@ -39,3 +39,11 @@ export interface CoinHistory {
   market_caps: number[][];
   total_volumes: number[][];
 }
+
+export interface CoinSimple {
+  coin: CoinPrice;
+}
+
+export interface CoinPrice {
+  price: number;
+}

@@ -1,15 +1,15 @@
 export interface User {
-  Id: Number;
-  Name: String;
-  LiquidCash: Number;
-  Transactions?: Transaction[];
+  id: Number;
+  name: String;
+  liquidCash: Number;
+  transactions?: Transaction[];
 }
 
 export interface Transaction {
-  Id: Number;
-  UserId: Number;
-  TransactionDate: Date;
-  CoinSymbol: String;
-  Quantity: Number;
-  PurchasePrice: Number;
+  id: number;
+  userId: number;
+  transactionDate: Date;
+  coinId: string;
+  quantity: number;
+  purchasePrice: number;
 }
