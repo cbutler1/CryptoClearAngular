@@ -9,7 +9,7 @@ import { Coin } from '../interfaces-coins';
 })
 export class CoinsComponent implements OnInit {
   topTwentyCoins: Coin[] = [];
-  //chosenCoin: {as coin}
+  chosenCoin: Coin[] = [];
   constructor(private _service: CryptoServiceService) {}
 
   ngOnInit(): void {
@@ -23,5 +23,10 @@ export class CoinsComponent implements OnInit {
     });
   };
 
-  
+  loadCurrentCoin = (): void => {
+    this._service.getCurrentCoin().subscribe((data: Coin[]) => {
+      this.chosenCoin = data;
+      console.log(data);
+    });
+  }
 }

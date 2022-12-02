@@ -24,4 +24,10 @@ export class CryptoServiceService {
       `${this.backEndBaseUrl}Transactions/${userId}`
     );
   };
+
+  getCurrentCoin = (): Observable<Coin[]> => {
+    return this.httpClient.get<Coin[]>(
+      `${this.coinGeckoBaseUrl}markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false`
+    )
+  }
 }
