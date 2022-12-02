@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { CryptoServiceService } from '../crypto-service.service';
 import { Transaction } from '../interfaces';
 import { Coin, CoinSimple } from '../interfaces-coins';
+import { UserServiceService } from '../user-service.service';
 
 @Component({
   selector: 'app-portfolio',
@@ -11,24 +12,28 @@ import { Coin, CoinSimple } from '../interfaces-coins';
 })
 export class PortfolioComponent implements OnInit {
   currentPortfolio: Transaction[] = [];
+  currentPortfolioCoins: string[] = [];
+  currentPortfolioCoinPrices: any;
 
-  constructor(private _service: CryptoServiceService) {}
+  constructor(
+    private _service: CryptoServiceService,
+    private _userService: UserServiceService
+  ) {}
 
   ngOnInit(): void {
-    this.loadCurrentPortfolio(1);
+    this.loadCurrentPortfolio(this._userService.currentUser.id);
   }
 
   loadCurrentPortfolio = (userId: number): void => {
     this._service.getTransactions(userId).subscribe((data: Transaction[]) => {
       this.currentPortfolio = data;
-      console.log(data);
+      this.generateCoinList(this.currentPortfolio);
     });
   };
 
   loadSiblingPrice = (e: HTMLElement) => {
     let sibling = e.previousElementSibling;
     let currentPrice = sibling?.innerHTML;
-    console.log(currentPrice);
 
     if (currentPrice) {
       let cPrice = parseInt(currentPrice);
@@ -38,9 +43,32 @@ export class PortfolioComponent implements OnInit {
     }
   };
 
-  getCurrentPrice = (coinId: string): any => {
-    this._service.getSingleCoinPrice(coinId).subscribe((data: CoinSimple) => {
-      return data.coin.price;
+  generateCoinList = (transactions: Transaction[]): void => {
+    transactions.forEach((t) => {
+      this.currentPortfolioCoins.push(t.coinId);
     });
+    let query: string = this.buildQuery(this.currentPortfolioCoins);
+
+    this.getCurrentPrices(query);
+  };
+
+  getCurrentPrices = (query: string): void => {
+    this._service.getCoinPrices(query).subscribe((data: any) => {
+      this.currentPortfolioCoinPrices = data;
+    });
+  };
+
+  getCurrentPrice = (query: string): number => {
+    return this.currentPortfolioCoinPrices[query]['usd'];
+  };
+
+  buildQuery = (coinIds: string[]): string => {
+    let query = '';
+
+    for (let i = 0; i < coinIds.length; i++) {
+      query += coinIds[i] + ',';
+    }
+
+    return query;
   };
 }

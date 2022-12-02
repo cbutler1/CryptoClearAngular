@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Coin, CoinSimple } from './interfaces-coins';
-import { Transaction } from './interfaces';
+import { Transaction, User } from './interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +25,9 @@ export class CryptoServiceService {
     );
   };
 
-  getSingleCoinPrice = (coinId: string): Observable<CoinSimple> => {
+  getCoinPrices = (query: string): Observable<CoinSimple> => {
     return this.httpClient.get<CoinSimple>(
-      `${this.coinGeckoBaseUrl}simple/price?ids=${coinId}&vs_currencies=usd`
+      `${this.coinGeckoBaseUrl}simple/price?ids=${query}&vs_currencies=usd`
     );
   };
 }
