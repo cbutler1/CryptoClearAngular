@@ -1,7 +1,7 @@
 export interface User {
-  id: Number;
-  name: String;
-  liquidCash: Number;
+  id: number;
+  name: string;
+  liquidCash: number;
   transactions?: Transaction[];
 }
 

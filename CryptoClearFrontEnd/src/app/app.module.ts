@@ -23,7 +23,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
     NavBarComponent,
     ModalComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, OverlayModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
