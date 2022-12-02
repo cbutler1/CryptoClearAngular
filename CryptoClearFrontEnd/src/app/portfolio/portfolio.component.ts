@@ -47,7 +47,9 @@ export class PortfolioComponent implements OnInit {
     transactions.forEach((t) => {
       this.currentPortfolioCoins.push(t.coinId);
     });
+    this.currentPortfolioCoins = [...new Set(this.currentPortfolioCoins)];
     let query: string = this.buildQuery(this.currentPortfolioCoins);
+    console.log(query);
 
     this.getCurrentPrices(query);
   };

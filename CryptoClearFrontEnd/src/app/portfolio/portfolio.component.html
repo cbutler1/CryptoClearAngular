@@ -19,11 +19,25 @@
       <td>
         {{ t.purchasePrice | currency: 'USD':'symbol':'.2-6' }}
       </td>
-      <td>{{ getCurrentPrice(t.coinId) | currency: 'USD':'symbol':'.2-6' }}</td>
       <td>
         {{
-          (getCurrentPrice(t.coinId) - t.purchasePrice) / t.purchasePrice
-            | percent: '.2'
+          getCurrentPrice(t.coinId) * t.quantity
+            | currency: 'USD':'symbol':'.2-6'
+        }}
+        <span
+          data-bs-container="body"
+          data-bs-toggle="popover"
+          data-bs-placement="right"
+          data-bs-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+          data-bs-original-title="Popover Title"
+        >
+          &#9432;
+        </span>
+      </td>
+      <td>
+        {{
+          (getCurrentPrice(t.coinId) * t.quantity - t.purchasePrice) /
+            t.purchasePrice | percent: '.2'
         }}
       </td>
       <td>
