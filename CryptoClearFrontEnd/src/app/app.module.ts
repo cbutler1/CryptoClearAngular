@@ -12,8 +12,6 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from './modal/modal.component';
 
-import { OverlayModule } from '@angular/cdk/overlay';
-
 @NgModule({
   declarations: [
     AppComponent,

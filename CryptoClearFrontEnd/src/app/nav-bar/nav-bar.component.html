@@ -1,7 +1,14 @@
 <header>
   <nav class="navbar navbar-expand-lg bg-primary">
     <div class="container">
-      <a class="navbar-brand text-white" href="#">CryptoClear</a>
+      <a class="navbar-brand text-white" href="#">
+        <img
+          src="assets/CryptoClear.png"
+          alt=""
+          style="width: 48px; height: 48px; margin-right: 10px"
+        />
+        CryptoClear</a
+      >
       <button
         class="navbar-toggler"
         type="button"
@@ -43,16 +50,13 @@
             >
           </li>
         </ul>
-        <form class="d-flex">
-          <input
-            class="form-control me-sm-2"
-            type="text"
-            placeholder="Search"
-          />
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        </form>
+        <div class="d-flex justiofy-content-center gap-2">
+          <span class="nav-link text-white fs-5"
+            ><span class="fw-bold">Cash Balance:</span>
+            {{ user.liquidCash | currency: 'USD':'symbol' }}</span
+          >
+          <i class="fa-solid fa-circle-user fa-2xl"></i>
+        </div>
       </div>
     </div>
   </nav>

@@ -8,6 +8,7 @@ import { Transaction, User } from './interfaces';
   providedIn: 'root',
 })
 export class CryptoServiceService {
+  [x: string]: any;
   coinGeckoBaseUrl: string = 'https://api.coingecko.com/api/v3/';
   backEndBaseUrl: string = 'https://localhost:58557/api/';
 
@@ -31,7 +32,6 @@ export class CryptoServiceService {
     );
   };
 
-
   addTransaction = (trade: Transaction): void => {
     this.httpClient
     .post<Transaction>(
@@ -46,3 +46,10 @@ export class CryptoServiceService {
     )
   };
   }
+  
+  getSelectedCoinDisplayView = (): Observable<Coin> => {
+    return this.httpClient.get<Coin>(
+      `${this.coinGeckoBaseUrl}`
+    )
+  }
+}
