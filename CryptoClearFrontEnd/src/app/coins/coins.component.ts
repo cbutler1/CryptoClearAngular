@@ -43,7 +43,6 @@ export class CoinsComponent implements OnInit {
       quantity: this.desiredCoinAmount / this.activeCoin.current_price,
       purchasePrice: this.desiredCoinAmount,
     };
-
     this._service.addTransaction(trade);
     console.log(trade);
   };
