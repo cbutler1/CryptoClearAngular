@@ -33,23 +33,12 @@ export class CryptoServiceService {
   };
 
   addTransaction = (trade: Transaction): void => {
-    this.httpClient
-    .post<Transaction>(
-        `${this.backEndBaseUrl}/Transactions`,
-        {
-          'userId': trade.userId,
-          'transactionDate': Date.now(),
-          'coinId': trade.coinId,
-          'quantity': trade.quantity,
-          'purchasePrice': trade.purchasePrice
-        }
-    )
+    this.httpClient.post<Transaction>(`${this.backEndBaseUrl}/Transactions`, {
+      userId: trade.userId,
+      transactionDate: Date.now(),
+      coinId: trade.coinId,
+      quantity: trade.quantity,
+      purchasePrice: trade.purchasePrice,
+    });
   };
-  }
-  
-  getSelectedCoinDisplayView = (): Observable<Coin> => {
-    return this.httpClient.get<Coin>(
-      `${this.coinGeckoBaseUrl}`
-    )
-  }
 }

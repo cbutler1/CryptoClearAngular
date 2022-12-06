@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CryptoServiceService } from './crypto-service.service';
 import { User } from './interfaces';
-import { Coin } from './interfaces-coins';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +8,9 @@ import { Coin } from './interfaces-coins';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'CryptoClearFrontEnd';
   user: User = {
     id: 1,
     name: 'Collin',
-    liquidCash: 8932839.33
-  }
+    liquidCash: 8932839.33,
+  };
 }
