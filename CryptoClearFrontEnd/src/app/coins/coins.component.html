@@ -13,7 +13,8 @@
           />
         </div>
         <h4 class="card-title text-center">
-          <u>{{ c.name }}</u>
+          <a [routerLink]="['/coinDetails']" [queryParams]="{coinName: c.id}"
+          >{{ c.name }}</a>
         </h4>
         <div class="container-fluid">
           <div class="row">
