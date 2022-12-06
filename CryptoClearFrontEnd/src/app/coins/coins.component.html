@@ -38,11 +38,17 @@
         </div>
       </div>
 
-
       <ng-container>
         <div class="btn-toolbar m-auto" role="toolbar">
           <div class="btn-group me-2" role="group" aria-label="First group">
-            <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="setActiveCoin(c)">Buy</button>
+            <button
+              class="btn btn-outline-success"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              (click)="setActiveCoin(c)"
+            >
+              Buy
+            </button>
             <button
               class="btn btn-outline-success"
               data-bs-toggle="modal"
@@ -53,60 +59,13 @@
           </div>
         </div>
       </ng-container>
-      
+
       <!-- <p>{{c.participations.length()}}</p> -->
     </div>
   </div>
 </div>
 
 <!-- Modal buying-->
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" >
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" >Make a Trade</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <h5>{{activeCoin.name}}</h5>
-        <p>Current Price: {{activeCoin.current_price | currency: 'USD': 'symbol': '.2-6'}}</p>
-        <div class="form-group" >
-
-          <label class="col-form-label mt-2" for="inputDefault">
-            Purchase Amount USD
-          </label>
-
-          <input type="number" class="form-control" placeholder="0.00" [(ngModel)]="desiredCoinAmount" id="inputDefault">
-        </div>
-        <div class="mt-2">
-          <h6>Do you wish to purchase {{desiredCoinAmount/activeCoin.current_price | number:'.2-6'}} {{activeCoin.name}} for {{desiredCoinAmount | currency: 'USD': 'symbol': '.2-6'}}?</h6> 
-          <h6></h6> 
-
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" >Confirm Transaction</button>
-        <!-- (click)="" -->
-      </div>
-    </div>
-  </div>
-<
-<!-- modal selling -->
-<div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Sell Crypto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label class="col-form-label mt-4" for="inputDefault">coin logo current price price change</label>
-          <input type="text" class="form-control" placeholder="Sell amount" id="inputDefault">
-          
-<!-- Modal -->
 
 <div
   class="modal fade"
@@ -127,17 +86,32 @@
         ></button>
       </div>
       <div class="modal-body">
+        <h5>{{ activeCoin.name }}</h5>
+        <p>
+          Current Price:
+          {{ activeCoin.current_price | currency: 'USD':'symbol':'.2-6' }}
+        </p>
         <div class="form-group">
-          <label class="col-form-label mt-4" for="inputDefault"
-            >coin logo current price price change</label
-          >
+          <label class="col-form-label mt-2" for="inputDefault">
+            Purchase Amount USD
+          </label>
+
           <input
-            type="text"
+            type="number"
             class="form-control"
-            placeholder="Buy amount"
+            placeholder="0.00"
+            [(ngModel)]="desiredCoinAmount"
             id="inputDefault"
           />
-
+        </div>
+        <div class="mt-2">
+          <h6>
+            Do you wish to purchase
+            {{ desiredCoinAmount / activeCoin.current_price | number: '.2-6' }}
+            {{ activeCoin.name }} for
+            {{ desiredCoinAmount | currency: 'USD':'symbol':'.2-6' }}?
+          </h6>
+          <h6></h6>
         </div>
       </div>
       <div class="modal-footer">
@@ -147,16 +121,95 @@
         <button type="button" class="btn btn-primary">
           Confirm Transaction
         </button>
+        <!-- (click)="" -->
+      </div>
+    </div>
+  </div>
+  <
+  <!-- modal selling -->
+  <div
+    class="modal fade"
+    id="sellModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Sell Crypto</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="col-form-label mt-4" for="inputDefault"
+              >coin logo current price price change</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Sell amount"
+              id="inputDefault"
+            />
+
+            <!-- Modal -->
+
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Make a Trade
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label class="col-form-label mt-4" for="inputDefault"
+                        >coin logo current price price change</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Buy amount"
+                        id="inputDefault"
+                      />
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                      Confirm Transaction
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-<!-- <figure class="text-center">
-  <blockquote class="blockquote">
-    <p class="mb-0">
-      "There's this new cryptocurrency called Decibel. It's a sound investment"
-    </p>
-  </blockquote>
-  <figcaption class="blockquote-footer">
-    <cite title="Source Title">Anonymous</cite>
-  </figcaption>
