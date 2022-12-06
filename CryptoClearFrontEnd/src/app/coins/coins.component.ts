@@ -27,7 +27,7 @@ export class CoinsComponent implements OnInit {
   };
 
   setActiveCoin(c: Coin) {
-    if (1 == 1) this.activeCoin = c;
+    this.activeCoin = c;
     console.log(c);
   };
 
