@@ -44,6 +44,7 @@ export class CoinsComponent implements OnInit {
     };
 
     this._service.addTransaction(trade);
+    console.log(trade);
   };
 
 
