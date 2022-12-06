@@ -8,7 +8,7 @@ export interface User {
 export interface Transaction {
   id: number;
   userId: number;
-  transactionDate: string;
+  transactionDate: Date;
   coinId: string;
   quantity: number;
   purchasePrice: number;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Coin, CoinSimple } from './interfaces-coins';
 import { Transaction, User } from './interfaces';
@@ -33,12 +33,15 @@ export class CryptoServiceService {
   };
 
   addTransaction = (trade: Transaction): void => {
-    this.httpClient.post<Transaction>(`${this.backEndBaseUrl}/Transactions`, {
-      userId: trade.userId,
-      transactionDate: Date.now(),
-      coinId: trade.coinId,
-      quantity: trade.quantity,
-      purchasePrice: trade.purchasePrice,
-    });
+    let jsonTrade = JSON.stringify(trade);
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    this.httpClient.post<Transaction>(
+      `${this.backEndBaseUrl}Transactions/`,
+      jsonTrade,
+      {
+        headers: headers,
+      }
+    );
   };
 }
