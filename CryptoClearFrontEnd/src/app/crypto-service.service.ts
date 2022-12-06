@@ -30,4 +30,19 @@ export class CryptoServiceService {
       `${this.coinGeckoBaseUrl}simple/price?ids=${query}&vs_currencies=usd`
     );
   };
-}
+
+
+  addTransaction = (trade: Transaction): void => {
+    this.httpClient
+    .post<Transaction>(
+        `${this.backEndBaseUrl}/Transactions`,
+        {
+          'userId': trade.userId,
+          'transactionDate': Date.now(),
+          'coinId': trade.coinId,
+          'quantity': trade.quantity,
+          'purchasePrice': trade.purchasePrice
+        }
+    )
+  };
+  }

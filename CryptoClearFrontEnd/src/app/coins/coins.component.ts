@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
-import { User } from '../interfaces';
+import { Transaction, User } from '../interfaces';
 import { Coin } from '../interfaces-coins';
 
 @Component({
@@ -9,14 +10,16 @@ import { Coin } from '../interfaces-coins';
   styleUrls: ['./coins.component.css'],
 })
 export class CoinsComponent implements OnInit {
+  @Input() user: User = {} as User;
   topTwentyCoins: Coin[] = [];
   activeCoin: Coin = {} as Coin;
   desiredCoinAmount: number = 0;
-  constructor(private _service: CryptoServiceService) {}
+  constructor(private _service: CryptoServiceService, private _appComponent: AppComponent) {}
 
 
   ngOnInit(): void {
     this.loadTopTwentyCoins();
+    this.user = this._appComponent.user;
   }
 
   loadTopTwentyCoins = (): void => {
@@ -30,6 +33,19 @@ export class CoinsComponent implements OnInit {
     if (1 == 1) this.activeCoin = c;
     console.log(c);
   };
+  submitTradeToDatabase = () => {
+    let trade: Transaction = {
+      id: 0,
+      userId: this.user.id,
+      transactionDate: Date.now().toString(),
+      coinId: this.activeCoin.id,
+      quantity: this.desiredCoinAmount / this.activeCoin.current_price,
+      purchasePrice: this.desiredCoinAmount,
+    };
+
+    this._service.addTransaction(trade);
+  };
+
 
 
 
