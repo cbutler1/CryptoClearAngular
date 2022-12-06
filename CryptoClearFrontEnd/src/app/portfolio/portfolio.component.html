@@ -41,12 +41,87 @@
         }}
       </td>
       <td>
-        <input type="number" name="" id="" />
+        <button
+          class="btn btn-outline-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#sellModal"
+          (click)="setActiveTransaction(t)"
+        >
+          Sell
+        </button>
       </td>
     </tr>
   </tbody>
 </table>
 
-<div>
-  <!-- {{ getCurrentPrice('bitcoin') }} -->
+<!-- modal selling -->
+<div
+  *ngIf="dataLoaded | async"
+  class="modal fade"
+  id="sellModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Sell Crypto</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h5>{{ activeTransaction.coinId }}</h5>
+        <p>
+          Current Price:
+          {{
+            getCurrentPrice(this.activeTransaction.coinId)
+              | currency: 'USD':'symbol':'.2-6'
+          }}
+        </p>
+        <div class="form-group">
+          <label class="col-form-label mt-2" for="inputDefault">
+            Purchase Amount USD
+          </label>
+
+          <input
+            type="number"
+            class="form-control"
+            placeholder="0.00"
+            [(ngModel)]="desiredSellAmount"
+            id="inputDefault"
+          />
+        </div>
+        <div class="mt-2">
+          <h6>
+            Do you wish to sell
+            {{
+              desiredSellAmount / getCurrentPrice(this.activeTransaction.coinId)
+                | number: '.2-6'
+            }}
+            {{ activeTransaction.coinId }} for
+            {{ desiredSellAmount | currency: 'USD':'symbol':'.2-6' }}?
+          </h6>
+          <h6></h6>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="('hi')"
+          data-bs-dismiss="modal"
+        >
+          Confirm Transaction
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
