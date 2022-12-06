@@ -9,9 +9,10 @@ import { Coin } from './interfaces-coins';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  title = 'CryptoClearFrontEnd';
   user: User = {
     id: 1,
-    name: 'Brennan',
-    liquidCash: 8536.13,
-  };
+    name: 'Collin',
+    liquidCash: 8932839.33
+  }
 }
