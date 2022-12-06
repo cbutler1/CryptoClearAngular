@@ -1,38 +1,33 @@
 <h2>User's Portfolio</h2>
 <table class="table table-hover">
-  <thead>
+  <thead class="text-center">
     <tr class="table-primary">
       <th scope="col">Date</th>
       <th scope="col">Coin</th>
-      <th scope="col">Quantity</th>
+      <th scope="col">Quantity Held</th>
       <th scope="col">Bought Price</th>
-      <th scope="col">Current Price</th>
+      <th scope="col">Unit Price</th>
+      <th scope="col">Held Value</th>
       <th scope="col">Change (%)</th>
       <th scope="col">Sell Quantity</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="text-center">
     <tr *ngFor="let t of currentPortfolio">
       <td>{{ t.transactionDate | date: 'shortDate' }}</td>
       <td>{{ t.coinId }}</td>
-      <td>{{ t.quantity }}</td>
+      <td>{{ t.quantity | number: '.2-6' }}</td>
       <td>
         {{ t.purchasePrice | currency: 'USD':'symbol':'.2-6' }}
+      </td>
+      <td>
+        {{ getCurrentPrice(t.coinId) | currency: 'USD':'symbol':'.2-6' }}
       </td>
       <td>
         {{
           getCurrentPrice(t.coinId) * t.quantity
             | currency: 'USD':'symbol':'.2-6'
         }}
-        <span
-          data-bs-container="body"
-          data-bs-toggle="popover"
-          data-bs-placement="right"
-          data-bs-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
-          data-bs-original-title="Popover Title"
-        >
-          &#9432;
-        </span>
       </td>
       <td>
         {{
@@ -40,7 +35,7 @@
             t.purchasePrice | percent: '.2'
         }}
       </td>
-      <td>
+      <td class="text-center">
         <button
           class="btn btn-outline-danger"
           data-bs-toggle="modal"
@@ -96,7 +91,7 @@
             id="inputDefault"
           />
         </div>
-        <div class="mt-2">
+        <div *ngIf="desiredSellAmount > 0" class="mt-2">
           <h6>
             Do you wish to sell
             {{
