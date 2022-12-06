@@ -13,8 +13,11 @@
           />
         </div>
         <h4 class="card-title text-center">
-          <a [routerLink]="['/coinDetails']" [queryParams]="{coinName: c.id}"
-          >{{ c.name }}</a>
+          <a
+            [routerLink]="['/coinDetails']"
+            [queryParams]="{ coinName: c.id }"
+            >{{ c.name }}</a
+          >
         </h4>
         <div class="container-fluid">
           <div class="row">
@@ -117,97 +120,16 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <button type="button" class="btn btn-primary" (click)="submitTradeToDatabase()" data-bs-dismiss="modal">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="submitTradeToDatabase()"
+          data-bs-dismiss="modal"
+        >
           Confirm Transaction
         </button>
       </div>
     </div>
   </div>
   <
-  <!-- modal selling -->
-  <div
-    class="modal fade"
-    id="sellModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Sell Crypto</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="col-form-label mt-4" for="inputDefault"
-              >coin logo current price price change</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Sell amount"
-              id="inputDefault"
-            />
-
-            <!-- Modal -->
-
-            <div
-              class="modal fade"
-              id="exampleModal"
-              tabindex="-1"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                      Make a Trade
-                    </h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <label class="col-form-label mt-4" for="inputDefault"
-                        >coin logo current price price change</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Buy amount"
-                        id="inputDefault"
-                      />
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button type="button" class="btn btn-primary">
-                      Confirm Transaction
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

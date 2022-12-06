@@ -14,6 +14,10 @@ export class PortfolioComponent implements OnInit {
   currentPortfolio: Transaction[] = [];
   currentPortfolioCoins: string[] = [];
   currentPortfolioCoinPrices: any;
+  activeTransaction: Transaction = {} as Transaction;
+  desiredSellAmount: number = 0;
+
+  dataLoaded: Promise<boolean> = Promise.resolve(false);
 
   constructor(
     private _service: CryptoServiceService,
@@ -28,6 +32,7 @@ export class PortfolioComponent implements OnInit {
     this._service.getTransactions(userId).subscribe((data: Transaction[]) => {
       this.currentPortfolio = data;
       this.generateCoinList(this.currentPortfolio);
+      this.dataLoaded = Promise.resolve(true);
     });
   };
 
@@ -73,4 +78,8 @@ export class PortfolioComponent implements OnInit {
 
     return query;
   };
+
+  setActiveTransaction(t: Transaction) {
+    this.activeTransaction = t;
+  }
 }
