@@ -14,8 +14,10 @@ export class CoinsComponent implements OnInit {
   topTwentyCoins: Coin[] = [];
   activeCoin: Coin = {} as Coin;
   desiredCoinAmount: number = 0;
-  constructor(private _service: CryptoServiceService, private _appComponent: AppComponent) {}
-
+  constructor(
+    private _service: CryptoServiceService,
+    private _appComponent: AppComponent
+  ) {}
 
   ngOnInit(): void {
     this.loadTopTwentyCoins();
@@ -32,12 +34,13 @@ export class CoinsComponent implements OnInit {
   setActiveCoin(c: Coin) {
     this.activeCoin = c;
     console.log(c);
-  };
+  }
+
   submitTradeToDatabase = () => {
     let trade: Transaction = {
       id: 0,
       userId: this.user.id,
-      transactionDate: Date.now().toString(),
+      transactionDate: new Date(Date.now()),
       coinId: this.activeCoin.id,
       quantity: this.desiredCoinAmount / this.activeCoin.current_price,
       purchasePrice: this.desiredCoinAmount,
@@ -46,9 +49,4 @@ export class CoinsComponent implements OnInit {
     this._service.addTransaction(trade);
     console.log(trade);
   };
-
-
-
-
-  
 }
