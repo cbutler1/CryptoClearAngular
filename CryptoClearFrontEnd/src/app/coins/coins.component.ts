@@ -27,13 +27,11 @@ export class CoinsComponent implements OnInit {
   loadTopTwentyCoins = (): void => {
     this._service.getTopTwentyCoins().subscribe((data: Coin[]) => {
       this.topTwentyCoins = data;
-      console.log(data);
     });
   };
 
   setActiveCoin(c: Coin) {
     this.activeCoin = c;
-    console.log(c);
   }
 
   submitTradeToDatabase = () => {
