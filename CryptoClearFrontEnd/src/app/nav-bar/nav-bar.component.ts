@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AppComponent } from '../app.component';
 import { User } from '../interfaces';
 
 @Component({
@@ -7,9 +8,11 @@ import { User } from '../interfaces';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  @Input() user: User = {} as User;
+  user: User = {} as User;
 
-  constructor() {}
+  constructor(private _appComponent: AppComponent) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.user = this._appComponent.user;
+  }
 }
