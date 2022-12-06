@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CryptoServiceService } from '../crypto-service.service';
+import { User } from '../interfaces';
 import { Coin } from '../interfaces-coins';
 
 @Component({
@@ -9,8 +10,10 @@ import { Coin } from '../interfaces-coins';
 })
 export class CoinsComponent implements OnInit {
   topTwentyCoins: Coin[] = [];
-  //chosenCoin: {as coin}
+  activeCoin: Coin = {} as Coin;
+  desiredCoinAmount: number = 0;
   constructor(private _service: CryptoServiceService) {}
+
 
   ngOnInit(): void {
     this.loadTopTwentyCoins();
@@ -22,6 +25,13 @@ export class CoinsComponent implements OnInit {
       console.log(data);
     });
   };
+
+  setActiveCoin(c: Coin) {
+    if (1 == 1) this.activeCoin = c;
+    console.log(c);
+  };
+
+
 
   
 }
