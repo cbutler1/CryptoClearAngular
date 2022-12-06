@@ -43,16 +43,13 @@
             >
           </li>
         </ul>
-        <form class="d-flex">
-          <input
-            class="form-control me-sm-2"
-            type="text"
-            placeholder="Search"
-          />
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        </form>
+        <div class="d-flex justiofy-content-center gap-2">
+          <span class="nav-link text-white fs-5"
+            ><span class="fw-bold">Cash Balance:</span>
+            {{ user.liquidCash | currency: 'USD':'symbol' }}</span
+          >
+          <i class="fa-solid fa-circle-user fa-2xl"></i>
+        </div>
       </div>
     </div>
   </nav>
