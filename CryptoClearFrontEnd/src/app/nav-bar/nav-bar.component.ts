@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { User } from '../interfaces';
+import { UserServiceService } from '../user-service.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,9 +11,18 @@ import { User } from '../interfaces';
 export class NavBarComponent implements OnInit {
   user: User = {} as User;
 
-  constructor(private _appComponent: AppComponent) {}
+  constructor(
+    private _appComponent: AppComponent,
+    private _userService: UserServiceService
+  ) {}
 
   ngOnInit(): void {
-    this.user = this._appComponent.user;
+    this.loadUser();
   }
+
+  loadUser = () => {
+    this._userService.getUserById(1).subscribe((data: User) => {
+      this.user = data;
+    });
+  };
 }

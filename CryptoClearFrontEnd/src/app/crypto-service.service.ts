@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Coin, CoinSimple } from './interfaces-coins';
 import { Transaction, User } from './interfaces';
@@ -32,16 +32,61 @@ export class CryptoServiceService {
     );
   };
 
-  addTransaction = (trade: Transaction): void => {
+  addTransaction = (trade: Transaction): Observable<Transaction> => {
+    let r: any;
     let jsonTrade = JSON.stringify(trade);
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    this.httpClient.post<Transaction>(
-      `${this.backEndBaseUrl}Transactions/`,
-      jsonTrade,
-      {
+    this.httpClient
+      .post<Transaction>(`${this.backEndBaseUrl}Transactions`, jsonTrade, {
         headers: headers,
-      }
-    );
+      })
+      .subscribe((result) => {
+        r = result;
+      });
+    return r;
+  };
+
+  deleteTransaction = (id: number): Observable<Transaction> => {
+    let r: any;
+
+    this.httpClient
+      .delete<Transaction>(`${this.backEndBaseUrl}Transactions/${id}`)
+      .subscribe((result) => {
+        r = result;
+      });
+    return r;
+  };
+
+  updateTransaction = (
+    t: Transaction,
+    newQuantity: number,
+    newPurchasePrice: number
+  ): Observable<Transaction> => {
+    let updatedTransaction: any = {
+      id: t.id,
+      userId: t.userId,
+      coinId: t.coinId,
+      quantity: newQuantity,
+      purchasePrice: newPurchasePrice,
+    };
+    let r: any;
+
+    let jsonTrade = JSON.stringify(updatedTransaction);
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    this.httpClient
+      .put<Transaction>(
+        `${this.backEndBaseUrl}Transactions/${updatedTransaction.id}`,
+        jsonTrade,
+        {
+          headers: headers,
+        }
+      )
+      .subscribe((result) => {
+        r = result;
+      });
+
+    return r;
   };
 }

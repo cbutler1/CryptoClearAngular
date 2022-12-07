@@ -15,7 +15,7 @@
   <tbody class="text-center">
     <tr *ngFor="let t of currentPortfolio">
       <td>{{ t.transactionDate | date: 'shortDate' }}</td>
-      <td>{{ t.coinId }}</td>
+      <td>{{ t.coinId | titlecase }}</td>
       <td>{{ t.quantity | number: '.2-6' }}</td>
       <td>
         {{ t.purchasePrice | currency: 'USD':'symbol':'.2-6' }}
@@ -95,7 +95,8 @@
           <h6>
             Do you wish to sell
             {{
-              desiredSellAmount / getCurrentPrice(this.activeTransaction.coinId)
+              this.desiredSellAmount /
+                this.getCurrentPrice(this.activeTransaction.coinId)
                 | number: '.2-6'
             }}
             {{ activeTransaction.coinId }} for
@@ -113,6 +114,7 @@
           class="btn btn-primary"
           (click)="('hi')"
           data-bs-dismiss="modal"
+          (click)="sellCoins()"
         >
           Confirm Transaction
         </button>
