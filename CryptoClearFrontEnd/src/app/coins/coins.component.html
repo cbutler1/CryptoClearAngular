@@ -53,13 +53,13 @@
             >
               Buy
             </button>
-            <button
+            <!-- <button
               class="btn btn-outline-success"
               data-bs-toggle="modal"
               data-bs-target="#exampleModal"
             >
               Buy
-            </button>
+            </button> -->
           </div>
         </div>
       </ng-container>
@@ -97,23 +97,36 @@
           <label class="col-form-label mt-2" for="inputDefault">
             Purchase Amount USD
           </label>
-
-          <input
-            type="number"
-            class="form-control"
-            placeholder="0.00"
-            [(ngModel)]="desiredCoinAmount"
-            id="inputDefault"
-          />
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input
+              type="number"
+              class="form-control"
+              placeholder=""
+              onfocus="this.value=''"
+              [(ngModel)]="desiredCoinAmount"
+              id="inputDefault"
+            />
+          </div>
         </div>
-        <div *ngIf="desiredCoinAmount > 0" class="mt-2">
+        <div
+          *ngIf="desiredCoinAmount > 0 && desiredCoinAmount <= user.liquidCash"
+          class="mt-3"
+        >
           <h6>
             Do you wish to purchase
             {{ desiredCoinAmount / activeCoin.current_price | number: '.2-6' }}
             {{ activeCoin.name }} for
             {{ desiredCoinAmount | currency: 'USD':'symbol':'.2-6' }}?
           </h6>
-          <h6></h6>
+        </div>
+        <div
+          *ngIf="desiredCoinAmount > user.liquidCash"
+          class="alert alert-danger mt-2"
+          role="alert"
+        >
+          Insufficent Funds! Funds Available:
+          {{ user.liquidCash | currency: 'USD':'symbol':'.2' }}
         </div>
       </div>
       <div class="modal-footer">
@@ -125,6 +138,9 @@
           class="btn btn-primary"
           (click)="submitTradeToDatabase()"
           data-bs-dismiss="modal"
+          [disabled]="
+            desiredCoinAmount <= 0 || desiredCoinAmount > user.liquidCash
+          "
         >
           Confirm Transaction
         </button>

@@ -3,6 +3,7 @@ import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
 import { Transaction, User } from '../interfaces';
 import { Coin } from '../interfaces-coins';
+import { UserServiceService } from '../user-service.service';
 
 @Component({
   selector: 'app-coins',
@@ -13,15 +14,15 @@ export class CoinsComponent implements OnInit {
   @Input() user: User = {} as User;
   topTwentyCoins: Coin[] = [];
   activeCoin: Coin = {} as Coin;
-  desiredCoinAmount: number = 0;
+  desiredCoinAmount: number = 0.0;
   constructor(
     private _service: CryptoServiceService,
     private _appComponent: AppComponent
   ) {}
 
   ngOnInit(): void {
-    this.loadTopTwentyCoins();
     this.user = this._appComponent.user;
+    this.loadTopTwentyCoins();
   }
 
   loadTopTwentyCoins = (): void => {
@@ -44,6 +45,8 @@ export class CoinsComponent implements OnInit {
       purchasePrice: this.desiredCoinAmount,
     };
     this._service.addTransaction(trade);
-    console.log(trade);
+    // this._userService.subtractUserLiquidCash(this.desiredCoinAmount);
+    this.desiredCoinAmount = 0;
+    console.log(this.desiredCoinAmount);
   };
 }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { CryptoServiceService } from '../crypto-service.service';
-import { Transaction } from '../interfaces';
-import { Coin, CoinSimple } from '../interfaces-coins';
+import { Transaction, User } from '../interfaces';
+import { Router } from '@angular/router';
+import { AppComponent } from '../app.component';
 import { UserServiceService } from '../user-service.service';
+import { async } from 'rxjs';
+import { UtilityServiceService } from '../utility-service.service';
 
 @Component({
   selector: 'app-portfolio',
@@ -11,6 +13,7 @@ import { UserServiceService } from '../user-service.service';
   styleUrls: ['./portfolio.component.css'],
 })
 export class PortfolioComponent implements OnInit {
+  user: User = {} as User;
   currentPortfolio: Transaction[] = [];
   currentPortfolioCoins: string[] = [];
   currentPortfolioCoinPrices: any;
@@ -21,12 +24,20 @@ export class PortfolioComponent implements OnInit {
 
   constructor(
     private _service: CryptoServiceService,
-    private _userService: UserServiceService
+    private _userService: UserServiceService,
+    private _utilityService: UtilityServiceService
   ) {}
 
   ngOnInit(): void {
-    this.loadCurrentPortfolio(this._userService.currentUser.id);
+    this.loadUser();
   }
+
+  loadUser = () => {
+    this._userService.getUserById(1).subscribe((data: User) => {
+      this.user = data;
+      this.loadCurrentPortfolio(this.user.id);
+    });
+  };
 
   loadCurrentPortfolio = (userId: number): void => {
     this._service.getTransactions(userId).subscribe((data: Transaction[]) => {
@@ -42,7 +53,6 @@ export class PortfolioComponent implements OnInit {
 
     if (currentPrice) {
       let cPrice = parseInt(currentPrice);
-      console.log(cPrice);
 
       e.innerText = `${cPrice}`;
     }
@@ -53,8 +63,8 @@ export class PortfolioComponent implements OnInit {
       this.currentPortfolioCoins.push(t.coinId);
     });
     this.currentPortfolioCoins = [...new Set(this.currentPortfolioCoins)];
+
     let query: string = this.buildQuery(this.currentPortfolioCoins);
-    console.log(query);
 
     this.getCurrentPrices(query);
   };
@@ -62,6 +72,7 @@ export class PortfolioComponent implements OnInit {
   getCurrentPrices = (query: string): void => {
     this._service.getCoinPrices(query).subscribe((data: any) => {
       this.currentPortfolioCoinPrices = data;
+      console.log(data);
     });
   };
 
@@ -76,10 +87,37 @@ export class PortfolioComponent implements OnInit {
       query += coinIds[i] + ',';
     }
 
+    query = query.replace(/,\s*$/, '');
+
     return query;
   };
 
   setActiveTransaction(t: Transaction) {
     this.activeTransaction = t;
   }
+
+  sellCoins = () => {
+    let desiredSellQuantity: number =
+      this.desiredSellAmount /
+      this.getCurrentPrice(this.activeTransaction.coinId);
+
+    if (this.activeTransaction.quantity == desiredSellQuantity) {
+      this._service.deleteTransaction(this.activeTransaction.id);
+    } else {
+      this._service.updateTransaction(
+        this.activeTransaction,
+        this.activeTransaction.quantity - desiredSellQuantity,
+        this.activeTransaction.purchasePrice -
+          (this.activeTransaction.purchasePrice /
+            this.activeTransaction.quantity) *
+            desiredSellQuantity
+      );
+    }
+
+    this._userService
+      .updateUserCash(this.user, this.user.liquidCash + this.desiredSellAmount)
+      .subscribe((x) => this.loadUser());
+
+    this._utilityService.reloadComponent();
+  };
 }

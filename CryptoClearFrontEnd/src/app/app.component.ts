@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CryptoServiceService } from './crypto-service.service';
 import { User } from './interfaces';
+import { UserServiceService } from './user-service.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +8,12 @@ import { User } from './interfaces';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  user: User = {
-    id: 1,
-    name: 'Collin',
-    liquidCash: 8932839.33,
-  };
+  currentUserId: number = 1;
+  user: User = {} as User;
+
+  constructor(private _userService: UserServiceService) {
+    this._userService.getUserById(1).subscribe((data: User) => {
+      this.user = data;
+    });
+  }
 }
