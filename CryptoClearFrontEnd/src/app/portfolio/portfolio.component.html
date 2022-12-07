@@ -70,26 +70,50 @@
         ></button>
       </div>
       <div class="modal-body">
-        <h5>{{ activeTransaction.coinId }}</h5>
+        <h5>{{ activeTransaction.coinId | titlecase }}</h5>
         <p>
-          Current Price:
+          Units Held:&nbsp;&nbsp;
+          {{ this.activeTransaction.quantity | number: '.2-6' }}
+        </p>
+        <p>
+          Unit Price:&nbsp;&nbsp;
           {{
             getCurrentPrice(this.activeTransaction.coinId)
               | currency: 'USD':'symbol':'.2-6'
           }}
         </p>
+        <p>
+          Held Price:&nbsp;&nbsp;
+          {{
+            getCurrentPrice(this.activeTransaction.coinId) *
+              this.activeTransaction.quantity | currency: 'USD':'symbol':'.2-6'
+          }}
+        </p>
+        <button
+          class="btn btn-outline-info"
+          (click)="
+            desiredSellAmount =
+              getCurrentPrice(this.activeTransaction.coinId) *
+              this.activeTransaction.quantity
+          "
+        >
+          Sell All
+        </button>
+
         <div class="form-group">
           <label class="col-form-label mt-2" for="inputDefault">
             Purchase Amount USD
           </label>
 
-          <input
-            type="number"
-            class="form-control"
-            placeholder="0.00"
-            [(ngModel)]="desiredSellAmount"
-            id="inputDefault"
-          />
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="desiredSellAmount"
+              id="inputDefault"
+            />
+          </div>
         </div>
         <div *ngIf="desiredSellAmount > 0" class="mt-2">
           <h6>
