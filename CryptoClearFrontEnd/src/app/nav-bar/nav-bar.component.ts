@@ -9,20 +9,17 @@ import { UserServiceService } from '../user-service.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  user: User = {} as User;
+  @Input() user: User = {} as User;
 
-  constructor(
-    private _appComponent: AppComponent,
-    private _userService: UserServiceService
-  ) {}
+  constructor(private _userService: UserServiceService) {}
 
   ngOnInit(): void {
-    this.loadUser();
+    // this.loadUser();
   }
 
-  loadUser = () => {
-    this._userService.getUserById(1).subscribe((data: User) => {
-      this.user = data;
-    });
-  };
+  // loadUser = () => {
+  //   this._userService.getUserById(1).subscribe((data: User) => {
+  //     this.user = data;
+  //   });
+  // };
 }
