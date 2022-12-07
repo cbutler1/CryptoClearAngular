@@ -1,6 +1,10 @@
 import { Component, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CoinsComponent } from './coins/coins.component';
 import { User } from './interfaces';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
+import { SelectedCoinViewComponent } from './selected-coin-view/selected-coin-view.component';
 import { UserServiceService } from './user-service.service';
 
 @Component({
@@ -26,7 +30,13 @@ export class AppComponent {
   loadUser = () => {
     this._userService.getUserById(1).subscribe((data: User) => {
       this.user = data;
-      console.log(this.user);
     });
   };
+
+  onOutletLoaded(
+    component: PortfolioComponent | CoinsComponent | SelectedCoinViewComponent
+  ) {
+    this.loadUser();
+    component.user = this.user;
+  }
 }

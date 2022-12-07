@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
 import { Transaction, User } from '../interfaces';
 import { UserServiceService } from '../user-service.service';
@@ -10,7 +12,7 @@ import { UtilityServiceService } from '../utility-service.service';
   styleUrls: ['./portfolio.component.css'],
 })
 export class PortfolioComponent implements OnInit {
-  user: User = {} as User;
+  @Input() user: User = {} as User;
   currentPortfolio: Transaction[] = [];
   currentPortfolioCoins: string[] = [];
   currentPortfolioCoinPrices: any;
@@ -22,19 +24,12 @@ export class PortfolioComponent implements OnInit {
   constructor(
     private _service: CryptoServiceService,
     private _userService: UserServiceService,
-    private _utilityService: UtilityServiceService
+    private _appCpmponent: AppComponent
   ) {}
 
   ngOnInit(): void {
-    this.loadUser();
+    this.loadCurrentPortfolio(this.user.id);
   }
-
-  loadUser = () => {
-    this._userService.getUserById(1).subscribe((data: User) => {
-      this.user = data;
-      this.loadCurrentPortfolio(this.user.id);
-    });
-  };
 
   loadCurrentPortfolio = (userId: number): void => {
     this._service.getTransactions(userId).subscribe((data: Transaction[]) => {
@@ -111,10 +106,14 @@ export class PortfolioComponent implements OnInit {
       );
     }
 
-    this._userService
-      .updateUserCash(this.user, this.user.liquidCash + this.desiredSellAmount)
-      .subscribe((x) => this.loadUser());
-
-    //this._utilityService.reloadComponent();
+    this._userService.updateUserCash(
+      this.user,
+      this.user.liquidCash + this.desiredSellAmount
+    );
+    this._appCpmponent.loadUser();
   };
+
+  reloadPage() {
+    window.location.reload();
+  }
 }

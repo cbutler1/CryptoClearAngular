@@ -1,4 +1,4 @@
-<app-nav-bar></app-nav-bar>
+<app-nav-bar [user]="user"></app-nav-bar>
 <div class="container p-3">
-  <router-outlet></router-outlet>
+  <router-outlet (activate)="onOutletLoaded($event)"></router-outlet>
 </div>
