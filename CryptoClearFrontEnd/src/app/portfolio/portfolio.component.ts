@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CryptoServiceService } from '../crypto-service.service';
 import { Transaction, User } from '../interfaces';
-import { Router } from '@angular/router';
-import { AppComponent } from '../app.component';
 import { UserServiceService } from '../user-service.service';
-import { async } from 'rxjs';
 import { UtilityServiceService } from '../utility-service.service';
 
 @Component({
