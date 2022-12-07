@@ -118,6 +118,6 @@ export class PortfolioComponent implements OnInit {
       .updateUserCash(this.user, this.user.liquidCash + this.desiredSellAmount)
       .subscribe((x) => this.loadUser());
 
-    this._utilityService.reloadComponent();
+    //this._utilityService.reloadComponent();
   };
 }

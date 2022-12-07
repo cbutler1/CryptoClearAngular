@@ -17,13 +17,20 @@ export class CoinsComponent implements OnInit {
   desiredCoinAmount: number = 0.0;
   constructor(
     private _service: CryptoServiceService,
-    private _appComponent: AppComponent
+    private _appComponent: AppComponent,
+    private _userService: UserServiceService
   ) {}
 
   ngOnInit(): void {
-    this.user = this._appComponent.user;
+    this.loadUser();
     this.loadTopTwentyCoins();
-  }
+  };
+
+  loadUser = () => {
+    this._userService.getUserById(1).subscribe((data: User) => {
+      this.user = data;
+    });
+  };
 
   loadTopTwentyCoins = (): void => {
     this._service.getTopTwentyCoins().subscribe((data: Coin[]) => {
@@ -45,8 +52,16 @@ export class CoinsComponent implements OnInit {
       purchasePrice: this.desiredCoinAmount,
     };
     this._service.addTransaction(trade);
-    // this._userService.subtractUserLiquidCash(this.desiredCoinAmount);
+    this.subtractLiquidCash();
     this.desiredCoinAmount = 0;
     console.log(this.desiredCoinAmount);
   };
+
+
+  subtractLiquidCash = () => {
+    this._userService
+      .updateUserCash(this.user, this.user.liquidCash - this.desiredCoinAmount)
+      .subscribe((x) => console.log(x));
+
+  }
 }
