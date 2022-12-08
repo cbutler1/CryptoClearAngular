@@ -124,13 +124,12 @@ export class PortfolioComponent implements OnInit {
       this.user.liquidCash + this.desiredSellAmount
     );
     this.desiredSellAmount = 0;
-    this.resetTransaction();
     this._appCpmponent.loadUser();
     this.reloadPage();
   };
 
   async reloadPage() {
-    // await new Promise((f) => setTimeout(f, 500));
+    await new Promise((f) => setTimeout(f, 1000));
     await window.location.replace('http://localhost:4200/portfolio');
     await this.loadUser();
   }

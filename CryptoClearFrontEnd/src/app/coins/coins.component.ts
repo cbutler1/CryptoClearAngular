@@ -71,7 +71,7 @@ export class CoinsComponent implements OnInit {
   };
 
   async reloadPage() {
-    // await new Promise((f) => setTimeout(f, 500));
+    await new Promise((f) => setTimeout(f, 500));
     await window.location.replace('http://localhost:4200/coins');
     await this.loadUser();
   }
