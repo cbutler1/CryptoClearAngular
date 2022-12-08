@@ -96,6 +96,11 @@ export class PortfolioComponent implements OnInit {
     this.activeTransaction = t;
   }
 
+  resetTransaction = () => {
+    this.activeTransaction = {} as Transaction;
+    this.desiredSellAmount = 0;
+  };
+
   sellCoins = () => {
     let desiredSellQuantity: number =
       this.desiredSellAmount /
@@ -118,12 +123,14 @@ export class PortfolioComponent implements OnInit {
       this.user,
       this.user.liquidCash + this.desiredSellAmount
     );
+    this.desiredSellAmount = 0;
+    this.resetTransaction();
     this._appCpmponent.loadUser();
     this.reloadPage();
   };
 
   async reloadPage() {
-    await new Promise((f) => setTimeout(f, 500));
+    // await new Promise((f) => setTimeout(f, 500));
     await window.location.replace('http://localhost:4200/portfolio');
     await this.loadUser();
   }

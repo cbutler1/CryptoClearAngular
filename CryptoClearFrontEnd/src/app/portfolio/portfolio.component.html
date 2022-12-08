@@ -67,6 +67,7 @@
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          (click)="resetTransaction()"
         ></button>
       </div>
       <div class="modal-body">
@@ -130,7 +131,12 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="resetTransaction()"
+        >
           Close
         </button>
         <button

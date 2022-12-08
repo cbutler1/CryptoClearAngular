@@ -41,6 +41,11 @@ export class CoinsComponent implements OnInit {
     this.activeCoin = c;
   }
 
+  resetCoin = () => {
+    this.activeCoin = {} as Coin;
+    this.desiredCoinAmount = 0;
+  };
+
   submitTradeToDatabase = () => {
     let trade: Transaction = {
       id: 0,
@@ -61,11 +66,12 @@ export class CoinsComponent implements OnInit {
       this.user,
       this.user.liquidCash - this.desiredCoinAmount
     );
+    this.resetCoin();
     this.reloadPage();
   };
 
   async reloadPage() {
-    await new Promise((f) => setTimeout(f, 500));
+    // await new Promise((f) => setTimeout(f, 500));
     await window.location.replace('http://localhost:4200/coins');
     await this.loadUser();
   }
