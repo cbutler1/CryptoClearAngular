@@ -21,15 +21,15 @@ export class CoinsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.loadUser();
-    this.loadTopTwentyCoins();
+    this.loadUser();
   }
 
-  // loadUser = () => {
-  //   this._userService.getUserById(1).subscribe((data: User) => {
-  //     this.user = data;
-  //   });
-  // };
+  loadUser = () => {
+    this._userService.getUserById(1).subscribe((data: User) => {
+      this.user = data;
+      this.loadTopTwentyCoins();
+    });
+  };
 
   loadTopTwentyCoins = (): void => {
     this._service.getTopTwentyCoins().subscribe((data: Coin[]) => {
@@ -57,8 +57,16 @@ export class CoinsComponent implements OnInit {
   };
 
   subtractLiquidCash = () => {
-    this._userService
-      .updateUserCash(this.user, this.user.liquidCash - this.desiredCoinAmount)
-      .subscribe((x) => console.log(x));
+    this._userService.updateUserCash(
+      this.user,
+      this.user.liquidCash - this.desiredCoinAmount
+    );
+    this.reloadPage();
   };
+
+  async reloadPage() {
+    await new Promise((f) => setTimeout(f, 500));
+    await window.location.replace('http://localhost:4200/coins');
+    await this.loadUser();
+  }
 }
