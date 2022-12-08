@@ -28,8 +28,16 @@ export class PortfolioComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadCurrentPortfolio(this.user.id);
+    this.loadUser();
   }
+
+  loadUser = () => {
+    this._userService.getUserById(1).subscribe((data: User) => {
+      this.user = data;
+      this.loadCurrentPortfolio(this.user.id);
+      this._appCpmponent.loadUser();
+    });
+  };
 
   loadCurrentPortfolio = (userId: number): void => {
     this._service.getTransactions(userId).subscribe((data: Transaction[]) => {
@@ -111,9 +119,12 @@ export class PortfolioComponent implements OnInit {
       this.user.liquidCash + this.desiredSellAmount
     );
     this._appCpmponent.loadUser();
+    this.reloadPage();
   };
 
-  reloadPage() {
-    window.location.reload();
+  async reloadPage() {
+    await new Promise((f) => setTimeout(f, 500));
+    await window.location.replace('http://localhost:4200/portfolio');
+    await this.loadUser();
   }
 }
