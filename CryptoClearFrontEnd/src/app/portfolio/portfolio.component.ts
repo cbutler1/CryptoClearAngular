@@ -100,20 +100,23 @@ export class PortfolioComponent implements OnInit {
     return query;
   };
 
+  
   filterCombinedTransactions = (coinsArray: string[]) => {
     let cTrans: CombinedTransactions = {} as CombinedTransactions;
 
     coinsArray.forEach((coin) => {
+      cTrans.cumlativePurchasePrice = 0; 
+      cTrans.cumulativeQuantity = 0; 
       cTrans.coinId = coin;
       cTrans.coinTransactions = this.currentPortfolio.filter(
         (t) => t.coinId === coin
       );
       cTrans.currentCoinPrice = this.getCurrentPrice(coin);
-
       cTrans.coinTransactions.forEach((trans) => {
         cTrans.cumulativeQuantity += trans.quantity;
         cTrans.cumlativePurchasePrice += trans.purchasePrice;
       });
+      cTrans.netCoinValue =cTrans.cumulativeQuantity * cTrans.currentCoinPrice;
 
       this.combinedTransactionPortfolio.push(cTrans);
       cTrans = {} as CombinedTransactions;
