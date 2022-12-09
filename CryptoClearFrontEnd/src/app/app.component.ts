@@ -18,7 +18,7 @@ export class AppComponent {
   user: User = {} as User;
 
   constructor(private _userService: UserServiceService) {
-    this._userService.getUserById(1).subscribe((data: User) => {
+    this._userService.getUserById('1').subscribe((data: User) => {
       this.user = data;
     });
   }
@@ -28,7 +28,7 @@ export class AppComponent {
   }
 
   loadUser = () => {
-    this._userService.getUserById(1).subscribe((data: User) => {
+    this._userService.getUserById('1').subscribe((data: User) => {
       this.user = data;
     });
   };

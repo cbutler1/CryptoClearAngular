@@ -20,7 +20,7 @@ export class CryptoServiceService {
     );
   };
 
-  getTransactions = (userId: number): Observable<Transaction[]> => {
+  getTransactions = (userId: string): Observable<Transaction[]> => {
     return this.httpClient.get<Transaction[]>(
       `${this.backEndBaseUrl}Transactions/${userId}`
     );
