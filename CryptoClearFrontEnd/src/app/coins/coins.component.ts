@@ -12,6 +12,8 @@ import { UserServiceService } from '../user-service.service';
   styleUrls: ['./coins.component.css'],
 })
 export class CoinsComponent implements OnInit {
+  currentUserId: string | undefined = '';
+  userName: string | undefined = '';
   @Input() user: User = {} as User;
   topTwentyCoins: Coin[] = [];
   activeCoin: Coin = {} as Coin;
@@ -23,15 +25,38 @@ export class CoinsComponent implements OnInit {
     public auth: AuthService
   ) {}
 
-  ngOnInit(): void {
-    this.auth.user$.subscribe((data) => {});
-    this.loadUser();
+  ngOnInit() {
+    this.auth.user$.subscribe((data) => {
+      this.currentUserId = data?.sub?.split('|')[1];
+      this.userName = data?.name;
+      this.loadUser();
+    });
   }
 
   loadUser = () => {
-    this._userService.getUserById('1').subscribe((data: User) => {
-      this.user = data;
+    if (this.currentUserId != undefined) {
+      this._userService
+        .checkUser(this.currentUserId)
+        .subscribe((data: Boolean) => {
+          if (data) {
+            this._userService
+              .getUserById(this.currentUserId)
+              .subscribe((data: User) => {
+                this.user = data;
+                this.loadTopTwentyCoins();
+              });
+          } else {
+            this.createUser(this.currentUserId, this.userName);
+          }
+        });
+    } else {
       this.loadTopTwentyCoins();
+    }
+  };
+
+  createUser = (userId: string | undefined, userName: string | undefined) => {
+    this._userService.createUser(userId, userName).subscribe((data) => {
+      this.loadUser();
     });
   };
 
@@ -43,6 +68,9 @@ export class CoinsComponent implements OnInit {
 
   setActiveCoin(c: Coin) {
     this.activeCoin = c;
+    console.log(this.user);
+
+    console.log(c);
   }
 
   resetCoin = () => {

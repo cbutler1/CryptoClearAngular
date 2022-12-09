@@ -1,5 +1,6 @@
 //#region Imports
 import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
 import { CombinedTransactions, Transaction, User } from '../interfaces';
@@ -13,6 +14,8 @@ import { UserServiceService } from '../user-service.service';
 })
 export class PortfolioComponent implements OnInit {
   //#region Variables
+  currentUserId: string | undefined = '';
+  userName: string | undefined = '';
   @Input() user: User = {} as User;
   currentPortfolio: Transaction[] = [];
   currentPortfolioCoins: string[] = [];
@@ -28,19 +31,37 @@ export class PortfolioComponent implements OnInit {
   constructor(
     private _service: CryptoServiceService,
     private _userService: UserServiceService,
-    private _appCpmponent: AppComponent
+    private _appCpmponent: AppComponent,
+    public auth: AuthService
   ) {}
 
-  ngOnInit(): void {
-    this.loadUser();
+  ngOnInit() {
+    this.auth.user$.subscribe((data) => {
+      this.currentUserId = data?.sub?.split('|')[1];
+      this.userName = data?.name;
+      this.loadUser();
+    });
   }
 
   //#region Functions
   loadUser = () => {
-    this._userService.getUserById('1').subscribe((data: User) => {
-      this.user = data;
-      this.loadCurrentPortfolio(this.user.id);
-      this._appCpmponent.loadUser();
+    if (this.currentUserId != undefined) {
+      this._userService
+        .getUserById(this.currentUserId)
+        .subscribe((data: User) => {
+          if (data.id != '') {
+            this.user = data;
+            this.loadCurrentPortfolio(this.user.id);
+          } else {
+            this.createUser(this.currentUserId, this.userName);
+          }
+        });
+    }
+  };
+
+  createUser = (userId: string | undefined, userName: string | undefined) => {
+    this._userService.createUser(userId, userName).subscribe((data) => {
+      this.loadUser();
     });
   };
 
@@ -154,7 +175,7 @@ export class PortfolioComponent implements OnInit {
       this.user.liquidCash + this.desiredSellAmount
     );
     this.desiredSellAmount = 0;
-    this._appCpmponent.loadUser();
+    this.loadUser();
     this.reloadPage();
   };
 

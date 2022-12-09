@@ -1,29 +1,45 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Transaction, User } from './interfaces';
-import { Observable } from 'rxjs';
-import { CoinsComponent } from './coins/coins.component';
-import { PortfolioComponent } from './portfolio/portfolio.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { defaultIfEmpty, Observable } from 'rxjs';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserServiceService {
-  user: User = {} as User;
   backEndBaseUrl: string = 'https://localhost:58557/api/';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, public auth: AuthService) {}
 
-  loadUser = (): any => {
-    this.getUserById('1').subscribe((data: User) => {
-      this.user = data;
-      return this.user;
-    });
+  getUserById = (userId: string | undefined): Observable<User> => {
+    return this.httpClient.get<User>(`${this.backEndBaseUrl}Users/${userId}`);
   };
 
-  getUserById = (userId: string): Observable<User> => {
-    return this.httpClient.get<User>(`${this.backEndBaseUrl}Users/${userId}`);
+  createUser = (
+    userId: string | undefined,
+    userName: string | undefined
+  ): Observable<User> => {
+    let r: any;
+    if (userId != undefined && userName != undefined) {
+      let user: User = {
+        id: userId,
+        liquidCash: 10000,
+        name: userName,
+      };
+
+      let jsonTrade = JSON.stringify(user);
+      let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+      this.httpClient
+        .post<User>(`${this.backEndBaseUrl}Users`, jsonTrade, {
+          headers: headers,
+        })
+        .subscribe((result) => {
+          r = result;
+        });
+    }
+    return r;
   };
 
   updateUserCash = (user: User, newLiquidCash: number): Observable<User> => {
@@ -46,5 +62,11 @@ export class UserServiceService {
       });
 
     return r;
+  };
+
+  checkUser = (userId: string | undefined): Observable<boolean> => {
+    return this.httpClient.get<boolean>(
+      `${this.backEndBaseUrl}Users/userCheck?id=${userId}`
+    );
   };
 }
