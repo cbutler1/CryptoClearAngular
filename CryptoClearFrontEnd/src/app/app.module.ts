@@ -11,6 +11,7 @@ import { ResourcesComponent } from './resources/resources.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from './modal/modal.component';
+import { AuthModule } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,16 @@ import { ModalComponent } from './modal/modal.component';
     NavBarComponent,
     ModalComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    AuthModule.forRoot({
+      domain: 'dev-c4tlyofk5s2wmu5t.us.auth0.com',
+      clientId: '0tNrScEpTC98uv5V2cYSvOsMmKt8edat',
+    }),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
