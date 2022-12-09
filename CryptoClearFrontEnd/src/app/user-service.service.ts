@@ -16,13 +16,13 @@ export class UserServiceService {
   constructor(private httpClient: HttpClient) {}
 
   loadUser = (): any => {
-    this.getUserById(1).subscribe((data: User) => {
+    this.getUserById('1').subscribe((data: User) => {
       this.user = data;
       return this.user;
     });
   };
 
-  getUserById = (userId: number): Observable<User> => {
+  getUserById = (userId: string): Observable<User> => {
     return this.httpClient.get<User>(`${this.backEndBaseUrl}Users/${userId}`);
   };
 

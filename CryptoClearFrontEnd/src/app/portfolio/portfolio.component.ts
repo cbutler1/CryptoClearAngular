@@ -37,14 +37,14 @@ export class PortfolioComponent implements OnInit {
 
   //#region Functions
   loadUser = () => {
-    this._userService.getUserById(1).subscribe((data: User) => {
+    this._userService.getUserById('1').subscribe((data: User) => {
       this.user = data;
       this.loadCurrentPortfolio(this.user.id);
       this._appCpmponent.loadUser();
     });
   };
 
-  async loadCurrentPortfolio(userId: number) {
+  async loadCurrentPortfolio(userId: string) {
     this._service.getTransactions(userId).subscribe((data: Transaction[]) => {
       this.currentPortfolio = data;
       this.generateCoinList(this.currentPortfolio);
@@ -104,16 +104,18 @@ export class PortfolioComponent implements OnInit {
     let cTrans: CombinedTransactions = {} as CombinedTransactions;
 
     coinsArray.forEach((coin) => {
+      cTrans.cumlativePurchasePrice = 0;
+      cTrans.cumulativeQuantity = 0;
       cTrans.coinId = coin;
       cTrans.coinTransactions = this.currentPortfolio.filter(
         (t) => t.coinId === coin
       );
       cTrans.currentCoinPrice = this.getCurrentPrice(coin);
-
       cTrans.coinTransactions.forEach((trans) => {
         cTrans.cumulativeQuantity += trans.quantity;
         cTrans.cumlativePurchasePrice += trans.purchasePrice;
       });
+      cTrans.netCoinValue = cTrans.cumulativeQuantity * cTrans.currentCoinPrice;
 
       this.combinedTransactionPortfolio.push(cTrans);
       cTrans = {} as CombinedTransactions;

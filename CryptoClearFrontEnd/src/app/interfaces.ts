@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  id: string;
   name: string;
   liquidCash: number;
   transactions?: Transaction[];
@@ -7,7 +7,7 @@ export interface User {
 
 export interface Transaction {
   id: number;
-  userId: number;
+  userId: string;
   transactionDate: Date;
   coinId: string;
   quantity: number;

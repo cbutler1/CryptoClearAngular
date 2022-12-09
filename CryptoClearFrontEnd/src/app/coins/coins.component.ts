@@ -29,7 +29,7 @@ export class CoinsComponent implements OnInit {
   }
 
   loadUser = () => {
-    this._userService.getUserById(1).subscribe((data: User) => {
+    this._userService.getUserById('1').subscribe((data: User) => {
       this.user = data;
       this.loadTopTwentyCoins();
     });
