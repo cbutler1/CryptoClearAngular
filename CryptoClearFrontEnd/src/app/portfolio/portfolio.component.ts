@@ -199,7 +199,7 @@ export class PortfolioComponent implements OnInit {
   };
 
   async reloadPage() {
-    await new Promise((f) => setTimeout(f, 1000));
+    await new Promise((f) => setTimeout(f, 500));
     // await window.location.replace('http://localhost:4200/portfolio');
     await this.loadUser();
   }
