@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
 import { Transaction, User } from '../interfaces';
@@ -15,12 +16,15 @@ export class CoinsComponent implements OnInit {
   topTwentyCoins: Coin[] = [];
   activeCoin: Coin = {} as Coin;
   desiredCoinAmount: number = 0.0;
+
   constructor(
     private _service: CryptoServiceService,
-    private _userService: UserServiceService
+    private _userService: UserServiceService,
+    public auth: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.auth.user$.subscribe((data) => {});
     this.loadUser();
   }
 

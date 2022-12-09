@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <ng-container>
+      <ng-container *ngIf="auth.isAuthenticated$ | async">
         <div class="btn-toolbar m-auto" role="toolbar">
           <div class="btn-group me-2" role="group" aria-label="First group">
             <button
@@ -53,13 +53,6 @@
             >
               Buy
             </button>
-            <!-- <button
-              class="btn btn-outline-success"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-            >
-              Buy
-            </button> -->
           </div>
         </div>
       </ng-container>

@@ -50,7 +50,10 @@
             >
           </li>
         </ul>
-        <div class="d-flex justiofy-content-center gap-2">
+        <div
+          *ngIf="auth.isAuthenticated$ | async"
+          class="d-flex justiofy-content-center gap-2"
+        >
           <span class="nav-link text-white fs-5"
             ><span class="fw-bold">Cash Balance:</span>
             {{ user.liquidCash | currency: 'USD':'symbol' }}</span
