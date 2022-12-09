@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CryptoServiceService } from '../crypto-service.service';
 import { Coin } from '../interfaces-coins';
-import { ActivatedRoute } from '@angular/router';
 import { User } from '../interfaces';
+import { AuthService } from '@auth0/auth0-angular';
+import { UserServiceService } from '../user-service.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-selected-coin-view',
@@ -13,20 +14,47 @@ export class SelectedCoinViewComponent implements OnInit {
   @Input() user: User = {} as User;
   selectedCoinInfo: Coin = {} as Coin;
   coinName: string = '';
+  currentUserId: any;
+  userName: any;
+
   constructor(
-    private _service: CryptoServiceService,
+    public auth: AuthService,
+    private _userService: UserServiceService,
     private route: ActivatedRoute
   ) {}
 
-  // getSelectedCoinInfo = (): void => {
-  //   this._service['getCoinInfo']().subscribe((data: Coin) => {
-  //     this.selectedCoinInfo = data;
-  //   })
-  // }
-
-  ngOnInit(): void {
+  ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.coinName = params['coinName'];
     });
+    this.auth.user$.subscribe((data) => {
+      this.currentUserId = data?.sub?.split('|')[1];
+      this.userName = data?.name;
+      this.loadUser();
+    });
+  }
+
+  loadUser = () => {
+    if (this.currentUserId != undefined) {
+      this._userService
+        .checkUser(this.currentUserId)
+        .subscribe((data: Boolean) => {
+          if (data) {
+            this._userService
+              .getUserById(this.currentUserId)
+              .subscribe((data: User) => {
+                this.user = data;
+              });
+          } else {
+            this.createUser(this.currentUserId, this.userName);
+          }
+        });
+    }
+  };
+
+  async createUser(userId: string | undefined, userName: string | undefined) {
+    this._userService.createUser(userId, userName);
+    await new Promise((f) => setTimeout(f, 1000));
+    this.loadUser();
   }
 }

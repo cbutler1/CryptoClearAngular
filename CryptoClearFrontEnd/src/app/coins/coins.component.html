@@ -1,61 +1,67 @@
-<div class="container-fluid">
-  <h2>Top 20 Coins:</h2>
-  <div class="row d-flex justify-content-center">
-    <div class="card m-1 p-2 col-2" *ngFor="let c of topTwentyCoins">
-      <div class="card-body p-0 pb-3">
-        <div class="text-center mb-3">
-          <img
-            class=""
-            src="{{ c.image }}"
-            alt="Card image cap"
-            height="120px"
-            width="120px"
-          />
-        </div>
-        <h4 class="card-title text-center">
-          <a
-            [routerLink]="['/coinDetails']"
-            [queryParams]="{ coinName: c.id }"
-            >{{ c.name }}</a
-          >
-        </h4>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col d-flex flex-column">
-              <h5 class="card-text">Price Change:</h5>
-              <p class="card-text">
-                {{ c.price_change_24h | currency: 'USD':'symbol':'.2-6' }}
-                (<span
-                  [ngStyle]="{
-                    color: c.price_change_percentage_24h >= 0 ? 'green' : 'red'
-                  }"
-                >
-                  {{ c.price_change_percentage_24h | number: '1.0-2' }}% </span
-                >)
-              </p>
-              <h5 class="card-text">Current Price:</h5>
-              <p class="card-text">
-                {{ c.current_price | currency: 'USD':'symbol':'.2-6' }}
-              </p>
+<app-nav-bar [user]="user"></app-nav-bar>
+<div class="container p-3">
+  <div class="container-fluid">
+    <h2>Top 20 Coins:</h2>
+    <div class="row d-flex justify-content-center">
+      <div class="card m-1 p-2 col-2" *ngFor="let c of topTwentyCoins">
+        <div class="card-body p-0 pb-3">
+          <div class="text-center mb-3">
+            <img
+              class=""
+              src="{{ c.image }}"
+              alt="Card image cap"
+              height="120px"
+              width="120px"
+            />
+          </div>
+          <h4 class="card-title text-center">
+            <a
+              [routerLink]="['/coinDetails']"
+              [queryParams]="{ coinName: c.id }"
+              >{{ c.name }}</a
+            >
+          </h4>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col d-flex flex-column">
+                <h5 class="card-text">Price Change:</h5>
+                <p class="card-text">
+                  {{ c.price_change_24h | currency: 'USD':'symbol':'.2-6' }}
+                  (<span
+                    [ngStyle]="{
+                      color:
+                        c.price_change_percentage_24h >= 0 ? 'green' : 'red'
+                    }"
+                  >
+                    {{
+                      c.price_change_percentage_24h | number: '1.0-2'
+                    }}% </span
+                  >)
+                </p>
+                <h5 class="card-text">Current Price:</h5>
+                <p class="card-text">
+                  {{ c.current_price | currency: 'USD':'symbol':'.2-6' }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <ng-container *ngIf="auth.isAuthenticated$ | async">
-        <div class="btn-toolbar m-auto" role="toolbar">
-          <div class="btn-group me-2" role="group" aria-label="First group">
-            <button
-              class="btn btn-outline-success"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-              (click)="setActiveCoin(c)"
-            >
-              Buy
-            </button>
+        <ng-container *ngIf="auth.isAuthenticated$ | async">
+          <div class="btn-toolbar m-auto" role="toolbar">
+            <div class="btn-group me-2" role="group" aria-label="First group">
+              <button
+                class="btn btn-outline-success"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                (click)="setActiveCoin(c)"
+              >
+                Buy
+              </button>
+            </div>
           </div>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>

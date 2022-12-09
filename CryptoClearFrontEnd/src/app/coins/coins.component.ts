@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
@@ -18,12 +19,25 @@ export class CoinsComponent implements OnInit {
   topTwentyCoins: Coin[] = [];
   activeCoin: Coin = {} as Coin;
   desiredCoinAmount: number = 0.0;
+  mySubscription: any;
 
   constructor(
     private _service: CryptoServiceService,
     private _userService: UserServiceService,
-    public auth: AuthService
-  ) {}
+    public auth: AuthService,
+    private router: Router
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+
+    this.mySubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+      }
+    });
+  }
 
   ngOnInit() {
     this.auth.user$.subscribe((data) => {
@@ -31,6 +45,12 @@ export class CoinsComponent implements OnInit {
       this.userName = data?.name;
       this.loadUser();
     });
+  }
+
+  ngOnDestroy() {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
   }
 
   loadUser = () => {
@@ -54,11 +74,11 @@ export class CoinsComponent implements OnInit {
     }
   };
 
-  createUser = (userId: string | undefined, userName: string | undefined) => {
-    this._userService.createUser(userId, userName).subscribe((data) => {
-      this.loadUser();
-    });
-  };
+  async createUser(userId: string | undefined, userName: string | undefined) {
+    this._userService.createUser(userId, userName);
+    await new Promise((f) => setTimeout(f, 1000));
+    this.loadUser();
+  }
 
   loadTopTwentyCoins = (): void => {
     this._service.getTopTwentyCoins().subscribe((data: Coin[]) => {
@@ -104,7 +124,7 @@ export class CoinsComponent implements OnInit {
 
   async reloadPage() {
     await new Promise((f) => setTimeout(f, 500));
-    await window.location.replace('http://localhost:4200/coins');
+    // await window.location.replace('http://localhost:4200/coins');
     await this.loadUser();
   }
 }

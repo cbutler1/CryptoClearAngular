@@ -1,53 +1,56 @@
-<h2>User's Portfolio</h2>
-<table class="table table-hover">
-  <thead class="text-center">
-    <tr class="table-primary">
-      <th scope="col">Date</th>
-      <th scope="col">Coin</th>
-      <th scope="col">Quantity Held</th>
-      <th scope="col">Bought Price</th>
-      <th scope="col">Unit Price</th>
-      <th scope="col">Held Value</th>
-      <th scope="col">Change (%)</th>
-      <th scope="col">Sell Quantity</th>
-    </tr>
-  </thead>
-  <tbody class="text-center">
-    <tr *ngFor="let t of currentPortfolio">
-      <td>{{ t.transactionDate | date: 'shortDate' }}</td>
-      <td>{{ t.coinId | titlecase }}</td>
-      <td>{{ t.quantity | number: '.2-6' }}</td>
-      <td>
-        {{ t.purchasePrice | currency: 'USD':'symbol':'.2-6' }}
-      </td>
-      <td>
-        {{ getCurrentPrice(t.coinId) | currency: 'USD':'symbol':'.2-6' }}
-      </td>
-      <td>
-        {{
-          getCurrentPrice(t.coinId) * t.quantity
-            | currency: 'USD':'symbol':'.2-4'
-        }}
-      </td>
-      <td>
-        {{
-          (getCurrentPrice(t.coinId) * t.quantity - t.purchasePrice) /
-            t.purchasePrice | percent: '.2'
-        }}
-      </td>
-      <td class="text-center">
-        <button
-          class="btn btn-outline-danger"
-          data-bs-toggle="modal"
-          data-bs-target="#sellModal"
-          (click)="setActiveTransaction(t)"
-        >
-          Sell
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<app-nav-bar [user]="user"></app-nav-bar>
+<div class="container p-3">
+  <h2>User's Portfolio</h2>
+  <table class="table table-hover">
+    <thead class="text-center">
+      <tr class="table-primary">
+        <th scope="col">Date</th>
+        <th scope="col">Coin</th>
+        <th scope="col">Quantity Held</th>
+        <th scope="col">Bought Price</th>
+        <th scope="col">Unit Price</th>
+        <th scope="col">Held Value</th>
+        <th scope="col">Change (%)</th>
+        <th scope="col">Sell Quantity</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      <tr *ngFor="let t of currentPortfolio">
+        <td>{{ t.transactionDate | date: 'shortDate' }}</td>
+        <td>{{ t.coinId | titlecase }}</td>
+        <td>{{ t.quantity | number: '.2-6' }}</td>
+        <td>
+          {{ t.purchasePrice | currency: 'USD':'symbol':'.2-6' }}
+        </td>
+        <td>
+          {{ getCurrentPrice(t.coinId) | currency: 'USD':'symbol':'.2-6' }}
+        </td>
+        <td>
+          {{
+            getCurrentPrice(t.coinId) * t.quantity
+              | currency: 'USD':'symbol':'.2-4'
+          }}
+        </td>
+        <td>
+          {{
+            (getCurrentPrice(t.coinId) * t.quantity - t.purchasePrice) /
+              t.purchasePrice | percent: '.2'
+          }}
+        </td>
+        <td class="text-center">
+          <button
+            class="btn btn-outline-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#sellModal"
+            (click)="setActiveTransaction(t)"
+          >
+            Sell
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <!-- modal selling -->
 <div

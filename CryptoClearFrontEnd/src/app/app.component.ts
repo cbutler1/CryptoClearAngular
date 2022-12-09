@@ -50,9 +50,11 @@ export class AppComponent {
     }
   };
 
-  createUser = (userId: string | undefined, userName: string | undefined) => {
+  async createUser(userId: string | undefined, userName: string | undefined) {
     this._userService.createUser(userId, userName);
-  };
+    await new Promise((f) => setTimeout(f, 1000));
+    this.loadUser();
+  }
 
   onOutletLoaded(
     component: PortfolioComponent | CoinsComponent | SelectedCoinViewComponent

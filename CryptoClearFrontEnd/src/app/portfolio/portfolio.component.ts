@@ -1,5 +1,6 @@
 //#region Imports
 import { Component, Input, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
@@ -26,14 +27,26 @@ export class PortfolioComponent implements OnInit {
   combinedTransactionPortfolio: CombinedTransactions[] = [];
 
   dataLoaded: Promise<boolean> = Promise.resolve(false);
+  mySubscription: any;
   //#endregion
 
   constructor(
     private _service: CryptoServiceService,
     private _userService: UserServiceService,
     private _appCpmponent: AppComponent,
-    public auth: AuthService
-  ) {}
+    public auth: AuthService,
+    private router: Router
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+    this.mySubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+      }
+    });
+  }
 
   ngOnInit() {
     this.auth.user$.subscribe((data) => {
@@ -41,6 +54,12 @@ export class PortfolioComponent implements OnInit {
       this.userName = data?.name;
       this.loadUser();
     });
+  }
+
+  ngOnDestroy() {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
   }
 
   //#region Functions
@@ -59,11 +78,11 @@ export class PortfolioComponent implements OnInit {
     }
   };
 
-  createUser = (userId: string | undefined, userName: string | undefined) => {
-    this._userService.createUser(userId, userName).subscribe((data) => {
-      this.loadUser();
-    });
-  };
+  async createUser(userId: string | undefined, userName: string | undefined) {
+    this._userService.createUser(userId, userName);
+    await new Promise((f) => setTimeout(f, 1000));
+    this.loadUser();
+  }
 
   async loadCurrentPortfolio(userId: string) {
     this._service.getTransactions(userId).subscribe((data: Transaction[]) => {
@@ -175,13 +194,13 @@ export class PortfolioComponent implements OnInit {
       this.user.liquidCash + this.desiredSellAmount
     );
     this.desiredSellAmount = 0;
-    this.loadUser();
+    // this.loadUser();
     this.reloadPage();
   };
 
   async reloadPage() {
     await new Promise((f) => setTimeout(f, 1000));
-    await window.location.replace('http://localhost:4200/portfolio');
+    // await window.location.replace('http://localhost:4200/portfolio');
     await this.loadUser();
   }
   //#endregion
