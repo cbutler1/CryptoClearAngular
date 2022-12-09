@@ -1,10 +1,10 @@
+//#region Imports
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
-import { Transaction, User } from '../interfaces';
+import { CombinedTransactions, Transaction, User } from '../interfaces';
 import { UserServiceService } from '../user-service.service';
-import { UtilityServiceService } from '../utility-service.service';
+//#endregion
 
 @Component({
   selector: 'app-portfolio',
@@ -12,6 +12,7 @@ import { UtilityServiceService } from '../utility-service.service';
   styleUrls: ['./portfolio.component.css'],
 })
 export class PortfolioComponent implements OnInit {
+  //#region Variables
   @Input() user: User = {} as User;
   currentPortfolio: Transaction[] = [];
   currentPortfolioCoins: string[] = [];
@@ -19,7 +20,10 @@ export class PortfolioComponent implements OnInit {
   activeTransaction: Transaction = {} as Transaction;
   desiredSellAmount: number = 0;
 
+  combinedTransactionPortfolio: CombinedTransactions[] = [];
+
   dataLoaded: Promise<boolean> = Promise.resolve(false);
+  //#endregion
 
   constructor(
     private _service: CryptoServiceService,
@@ -31,6 +35,7 @@ export class PortfolioComponent implements OnInit {
     this.loadUser();
   }
 
+  //#region Functions
   loadUser = () => {
     this._userService.getUserById(1).subscribe((data: User) => {
       this.user = data;
@@ -39,13 +44,16 @@ export class PortfolioComponent implements OnInit {
     });
   };
 
-  loadCurrentPortfolio = (userId: number): void => {
+  async loadCurrentPortfolio(userId: number) {
     this._service.getTransactions(userId).subscribe((data: Transaction[]) => {
       this.currentPortfolio = data;
       this.generateCoinList(this.currentPortfolio);
-      this.dataLoaded = Promise.resolve(true);
     });
-  };
+    await new Promise((f) => setTimeout(f, 1000));
+    this.filterCombinedTransactions(this.currentPortfolioCoins);
+    this.dataLoaded = Promise.resolve(true);
+    console.log(this.combinedTransactionPortfolio);
+  }
 
   loadSiblingPrice = (e: HTMLElement) => {
     let sibling = e.previousElementSibling;
@@ -92,6 +100,26 @@ export class PortfolioComponent implements OnInit {
     return query;
   };
 
+  filterCombinedTransactions = (coinsArray: string[]) => {
+    let cTrans: CombinedTransactions = {} as CombinedTransactions;
+
+    coinsArray.forEach((coin) => {
+      cTrans.coinId = coin;
+      cTrans.coinTransactions = this.currentPortfolio.filter(
+        (t) => t.coinId === coin
+      );
+      cTrans.currentCoinPrice = this.getCurrentPrice(coin);
+
+      cTrans.coinTransactions.forEach((trans) => {
+        cTrans.cumulativeQuantity += trans.quantity;
+        cTrans.cumlativePurchasePrice += trans.purchasePrice;
+      });
+
+      this.combinedTransactionPortfolio.push(cTrans);
+      cTrans = {} as CombinedTransactions;
+    });
+  };
+
   setActiveTransaction(t: Transaction) {
     this.activeTransaction = t;
   }
@@ -133,4 +161,5 @@ export class PortfolioComponent implements OnInit {
     await window.location.replace('http://localhost:4200/portfolio');
     await this.loadUser();
   }
+  //#endregion
 }

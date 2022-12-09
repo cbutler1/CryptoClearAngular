@@ -13,3 +13,12 @@ export interface Transaction {
   quantity: number;
   purchasePrice: number;
 }
+
+export interface CombinedTransactions {
+  coinId: string;
+  cumulativeQuantity: number;
+  cumlativePurchasePrice: number;
+  currentCoinPrice: number;
+  netCoinValue: number;
+  coinTransactions: Transaction[];
+}
