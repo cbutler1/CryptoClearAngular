@@ -1,7 +1,7 @@
 <header>
-  <nav class="navbar navbar-expand-lg bg-primary">
+  <nav class="navbar navbar-expand-lg bg-primary fs-5">
     <div class="container">
-      <a class="navbar-brand text-white" href="#">
+      <a class="navbar-brand text-white d-flex align-items-center" href="#">
         <img
           src="assets/CryptoClear.png"
           alt=""
@@ -51,30 +51,31 @@
           </li>
         </ul>
         <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-          <div class="d-flex justiofy-content-center gap-2">
+          <div class="d-flex align-items-center gap-2">
             <span class="nav-link text-white fs-5"
               ><span class="fw-bold">Cash Balance:</span>
               {{ user.liquidCash | currency: 'USD':'symbol' }}</span
             >
-            <span
-              data-bs-toggle="popover"
-              data-bs-placement="bottom"
-              data-bs-content="Vivamus
-sagittis lacus vel augue laoreet rutrum faucibus."
-              data-bs-original-title="Popover Title"
-              aria-describedby="popover195380"
+            <!-- <i class="fa-solid fa-circle-user fa-2xl"></i> -->
+            <button
+              class="btn"
+              (click)="auth.logout({ returnTo: document.location.origin })"
+              aria-label="Logout Button"
+              title="Logout"
             >
-              <i class="fa-solid fa-circle-user fa-2xl"></i>
-              <button
-                (click)="auth.logout({ returnTo: document.location.origin })"
-              >
-                Log out
-              </button>
-            </span>
+              <i class="fa-solid fa-right-from-bracket fa-2xl"></i>
+            </button>
           </div>
         </ng-container>
         <ng-template #loggedOut>
-          <button (click)="auth.loginWithRedirect()">Log in</button>
+          <button
+            class="btn"
+            (click)="auth.loginWithRedirect()"
+            aria-label="Login Button"
+            title="Login"
+          >
+            <i class="fa-solid fa-right-to-bracket fa-2xl"></i>
+          </button>
         </ng-template>
       </div>
     </div>
