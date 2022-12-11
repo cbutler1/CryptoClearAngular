@@ -1,5 +1,7 @@
 //#region Imports
 import { Component, Input, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
 import { CombinedTransactions, Transaction, User } from '../interfaces';
@@ -13,6 +15,8 @@ import { UserServiceService } from '../user-service.service';
 })
 export class PortfolioComponent implements OnInit {
   //#region Variables
+  currentUserId: string | undefined = '';
+  userName: string | undefined = '';
   @Input() user: User = {} as User;
   currentPortfolio: Transaction[] = [];
   currentPortfolioCoins: string[] = [];
@@ -23,26 +27,62 @@ export class PortfolioComponent implements OnInit {
   combinedTransactionPortfolio: CombinedTransactions[] = [];
 
   dataLoaded: Promise<boolean> = Promise.resolve(false);
+  mySubscription: any;
   //#endregion
 
   constructor(
     private _service: CryptoServiceService,
     private _userService: UserServiceService,
-    private _appCpmponent: AppComponent
-  ) {}
+    private _appCpmponent: AppComponent,
+    public auth: AuthService,
+    private router: Router
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+    this.mySubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+      }
+    });
+  }
 
-  ngOnInit(): void {
-    this.loadUser();
+  ngOnInit() {
+    this.auth.user$.subscribe((data) => {
+      this.currentUserId = data?.sub?.split('|')[1];
+      this.userName = data?.name;
+      this.loadUser();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
   }
 
   //#region Functions
   loadUser = () => {
-    this._userService.getUserById('1').subscribe((data: User) => {
-      this.user = data;
-      this.loadCurrentPortfolio(this.user.id);
-      this._appCpmponent.loadUser();
-    });
+    if (this.currentUserId != undefined) {
+      this._userService
+        .getUserById(this.currentUserId)
+        .subscribe((data: User) => {
+          if (data.id != '') {
+            this.user = data;
+            this.loadCurrentPortfolio(this.user.id);
+          } else {
+            this.createUser(this.currentUserId, this.userName);
+          }
+        });
+    }
   };
+
+  async createUser(userId: string | undefined, userName: string | undefined) {
+    this._userService.createUser(userId, userName);
+    await new Promise((f) => setTimeout(f, 1000));
+    this.loadUser();
+  }
 
   async loadCurrentPortfolio(userId: string) {
     this._service.getTransactions(userId).subscribe((data: Transaction[]) => {
@@ -154,13 +194,13 @@ export class PortfolioComponent implements OnInit {
       this.user.liquidCash + this.desiredSellAmount
     );
     this.desiredSellAmount = 0;
-    this._appCpmponent.loadUser();
+    // this.loadUser();
     this.reloadPage();
   };
 
   async reloadPage() {
-    await new Promise((f) => setTimeout(f, 1000));
-    await window.location.replace('http://localhost:4200/portfolio');
+    await new Promise((f) => setTimeout(f, 500));
+    // await window.location.replace('http://localhost:4200/portfolio');
     await this.loadUser();
   }
   //#endregion

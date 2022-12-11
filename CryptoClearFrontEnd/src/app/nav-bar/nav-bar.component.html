@@ -50,13 +50,32 @@
             >
           </li>
         </ul>
-        <div class="d-flex justiofy-content-center gap-2">
-          <span class="nav-link text-white fs-5"
-            ><span class="fw-bold">Cash Balance:</span>
-            {{ user.liquidCash | currency: 'USD':'symbol' }}</span
-          >
-          <i class="fa-solid fa-circle-user fa-2xl"></i>
-        </div>
+        <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+          <div class="d-flex justiofy-content-center gap-2">
+            <span class="nav-link text-white fs-5"
+              ><span class="fw-bold">Cash Balance:</span>
+              {{ user.liquidCash | currency: 'USD':'symbol' }}</span
+            >
+            <span
+              data-bs-toggle="popover"
+              data-bs-placement="bottom"
+              data-bs-content="Vivamus
+sagittis lacus vel augue laoreet rutrum faucibus."
+              data-bs-original-title="Popover Title"
+              aria-describedby="popover195380"
+            >
+              <i class="fa-solid fa-circle-user fa-2xl"></i>
+              <button
+                (click)="auth.logout({ returnTo: document.location.origin })"
+              >
+                Log out
+              </button>
+            </span>
+          </div>
+        </ng-container>
+        <ng-template #loggedOut>
+          <button (click)="auth.loginWithRedirect()">Log in</button>
+        </ng-template>
       </div>
     </div>
   </nav>

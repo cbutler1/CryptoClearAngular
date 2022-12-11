@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
 import { Transaction, User } from '../interfaces';
@@ -11,25 +13,72 @@ import { UserServiceService } from '../user-service.service';
   styleUrls: ['./coins.component.css'],
 })
 export class CoinsComponent implements OnInit {
+  currentUserId: string | undefined = '';
+  userName: string | undefined = '';
   @Input() user: User = {} as User;
   topTwentyCoins: Coin[] = [];
   activeCoin: Coin = {} as Coin;
   desiredCoinAmount: number = 0.0;
+  mySubscription: any;
+
   constructor(
     private _service: CryptoServiceService,
-    private _userService: UserServiceService
-  ) {}
+    private _userService: UserServiceService,
+    public auth: AuthService,
+    private router: Router
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
 
-  ngOnInit(): void {
-    this.loadUser();
+    this.mySubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+      }
+    });
+  }
+
+  ngOnInit() {
+    this.auth.user$.subscribe((data) => {
+      this.currentUserId = data?.sub?.split('|')[1];
+      this.userName = data?.name;
+      this.loadUser();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
   }
 
   loadUser = () => {
-    this._userService.getUserById('1').subscribe((data: User) => {
-      this.user = data;
+    if (this.currentUserId != undefined) {
+      this._userService
+        .checkUser(this.currentUserId)
+        .subscribe((data: Boolean) => {
+          if (data) {
+            this._userService
+              .getUserById(this.currentUserId)
+              .subscribe((data: User) => {
+                this.user = data;
+                this.loadTopTwentyCoins();
+              });
+          } else {
+            this.createUser(this.currentUserId, this.userName);
+          }
+        });
+    } else {
       this.loadTopTwentyCoins();
-    });
+    }
   };
+
+  async createUser(userId: string | undefined, userName: string | undefined) {
+    this._userService.createUser(userId, userName);
+    await new Promise((f) => setTimeout(f, 1000));
+    this.loadUser();
+  }
 
   loadTopTwentyCoins = (): void => {
     this._service.getTopTwentyCoins().subscribe((data: Coin[]) => {
@@ -39,6 +88,9 @@ export class CoinsComponent implements OnInit {
 
   setActiveCoin(c: Coin) {
     this.activeCoin = c;
+    console.log(this.user);
+
+    console.log(c);
   }
 
   resetCoin = () => {
@@ -72,7 +124,7 @@ export class CoinsComponent implements OnInit {
 
   async reloadPage() {
     await new Promise((f) => setTimeout(f, 500));
-    await window.location.replace('http://localhost:4200/coins');
+    // await window.location.replace('http://localhost:4200/coins');
     await this.loadUser();
   }
 }

@@ -1,8 +1,8 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, Output } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { Observable } from 'rxjs';
 import { CoinsComponent } from './coins/coins.component';
 import { User } from './interfaces';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { SelectedCoinViewComponent } from './selected-coin-view/selected-coin-view.component';
 import { UserServiceService } from './user-service.service';
@@ -14,29 +14,51 @@ import { UserServiceService } from './user-service.service';
 })
 @Injectable()
 export class AppComponent {
-  currentUserId: number = 1;
-  user: User = {} as User;
+  currentUserId: string | undefined = '';
+  userName: string | undefined = '';
+  @Output() user: User = {} as User;
 
-  constructor(private _userService: UserServiceService) {
-    this._userService.getUserById('1').subscribe((data: User) => {
-      this.user = data;
-    });
-  }
+  constructor(
+    private _userService: UserServiceService,
+    public auth: AuthService
+  ) {}
 
   ngOnInit() {
-    this.loadUser();
+    this.auth.user$.subscribe((data) => {
+      this.currentUserId = data?.sub?.split('|')[1];
+      this.userName = data?.name;
+      this.loadUser();
+    });
   }
 
+  //#region Functions
   loadUser = () => {
-    this._userService.getUserById('1').subscribe((data: User) => {
-      this.user = data;
-    });
+    if (this.currentUserId != undefined) {
+      this._userService
+        .checkUser(this.currentUserId)
+        .subscribe((data: Boolean) => {
+          if (data) {
+            this._userService
+              .getUserById(this.currentUserId)
+              .subscribe((data: User) => {
+                this.user = data;
+              });
+          } else {
+            this.createUser(this.currentUserId, this.userName);
+          }
+        });
+    }
   };
+
+  async createUser(userId: string | undefined, userName: string | undefined) {
+    this._userService.createUser(userId, userName);
+    await new Promise((f) => setTimeout(f, 1000));
+    this.loadUser();
+  }
 
   onOutletLoaded(
     component: PortfolioComponent | CoinsComponent | SelectedCoinViewComponent
   ) {
-    this.loadUser();
     component.user = this.user;
   }
 }

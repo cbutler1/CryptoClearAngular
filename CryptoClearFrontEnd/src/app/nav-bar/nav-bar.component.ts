@@ -1,7 +1,8 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { AppComponent } from '../app.component';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { User } from '../interfaces';
 import { UserServiceService } from '../user-service.service';
+import { AuthService } from '@auth0/auth0-angular';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,16 +11,13 @@ import { UserServiceService } from '../user-service.service';
 })
 export class NavBarComponent implements OnInit {
   @Input() user: User = {} as User;
+  profileId: string | undefined = '';
 
-  constructor(private _userService: UserServiceService) {}
+  constructor(
+    @Inject(DOCUMENT) public document: Document,
+    private _userService: UserServiceService,
+    public auth: AuthService
+  ) {}
 
-  ngOnInit(): void {
-    // this.loadUser();
-  }
-
-  // loadUser = () => {
-  //   this._userService.getUserById(1).subscribe((data: User) => {
-  //     this.user = data;
-  //   });
-  // };
+  ngOnInit(): void {}
 }
