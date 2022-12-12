@@ -8,6 +8,7 @@ import { AuthService } from '@auth0/auth0-angular';
   providedIn: 'root',
 })
 export class UserServiceService {
+  [x: string]: any;
   backEndBaseUrl: string = 'https://localhost:58557/api/';
 
   constructor(private httpClient: HttpClient, public auth: AuthService) {}

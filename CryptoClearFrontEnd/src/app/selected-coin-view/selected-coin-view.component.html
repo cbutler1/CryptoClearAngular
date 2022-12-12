@@ -1,4 +1,9 @@
 <app-nav-bar [user]="user"></app-nav-bar>
 <div class="container p-3">
   <p>{{ coinName }}</p>
+    <div *ngFor="let coinName of selectedCoinInfo">
+    <p>{{coinName.current_price}}</p>
+  </div>
 </div>
+
+
