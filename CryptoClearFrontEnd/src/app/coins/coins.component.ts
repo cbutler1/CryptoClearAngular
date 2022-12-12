@@ -20,6 +20,7 @@ export class CoinsComponent implements OnInit {
   activeCoin: Coin = {} as Coin;
   desiredCoinAmount: number = 0.0;
   mySubscription: any;
+  searchQuery: string = '';
 
   constructor(
     private _service: CryptoServiceService,
