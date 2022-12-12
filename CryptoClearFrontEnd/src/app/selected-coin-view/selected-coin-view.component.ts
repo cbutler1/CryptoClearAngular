@@ -28,6 +28,7 @@ export class SelectedCoinViewComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.coinName = params['coinName'];
+      this.loadSelectedCoin();
     });
     this.auth.user$.subscribe((data) => {
       this.currentUserId = data?.sub?.split('|')[1];
@@ -61,12 +62,10 @@ export class SelectedCoinViewComponent implements OnInit {
   }
 
   loadSelectedCoin = (): void => {
-    let activeCoin = this.coinName;
-    if(activeCoin == this.selectedCoinInfo)
-    this._service.getCoinDetails(activeCoin).subscribe((data: Coin[]) => {
+    this._service.getCoinDetails(this.coinName).subscribe((data: Coin[]) => {
+      console.log(data);
       this.selectedCoinInfo = data;
-      
-      console.log("hello");
+      console.log(this.selectedCoinInfo);
       
     });
   };

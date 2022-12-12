@@ -28,7 +28,8 @@ export class CryptoServiceService {
 
   getCoinDetails = (activeCoin: string): Observable<Coin[]> =>{
     return this.httpClient.get<Coin[]>(
-      `${this.coinGeckoBaseUrl}coins/`
+      `${this.coinGeckoBaseUrl}coins/markets?vs_currency=usd&ids=${activeCoin}&order=market_cap_desc&per_page=1&page=1&sparkline=false
+      `
     );
   };
   getCoinPrices = (query: string): Observable<CoinSimple> => {
