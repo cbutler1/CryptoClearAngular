@@ -1,28 +1,30 @@
 <app-nav-bar [user]="user"></app-nav-bar>
-<div class="container p-3" *ngFor="let coin of selectedCoinInfo">
-  <p>{{ coin.name | titlecase }}</p>
-  <p>{{ coin.symbol }}</p>
-  <p>{{ coin.id }}</p>
-  <p>{{ coin.current_price }}</p>
-  <p>{{ coin.market_cap }}</p>
-  <p>{{ coin.market_cap_rank }}</p>
-  <p>{{ coin.fully_diluted_valuation }}</p>
-  <p>{{ coin.total_volume }}</p>
-  <p>{{ coin.high_24h }}</p>
-  <p>{{ coin.low_24h }}</p>
-  <p>{{ coin.price_change_24h }}</p>
-  <p>{{ coin.price_change_percentage_24h }}</p>
-  <p>{{ coin.market_cap_change_24h }}</p>
-  <p>{{ coin.market_cap_change_percentage_24h }}</p>
-  <p>{{ coin.circulating_supply }}</p>
-  <p>{{ coin.total_supply }}</p>
-  <p>{{ coin.max_supply }}</p>
-  <p>{{ coin.ath }}</p>
-  <p>{{ coin.ath_change_percentage }}</p>
-  <p>{{ coin.ath_date }}</p>
-  <p>{{ coin.atl }}</p>
-  <p>{{ coin.atl_change_percentage }}</p>
-  <p>{{ coin.atl_date }}</p>
-  <p>{{ coin.roi }}</p>
-  <p>{{ coin.last_updated }}</p>
+<div >
+  <div class="container-coin-view p-3" *ngFor="let coin of selectedCoinInfo">
+
+    <div class="coin-name">{{coin.name | titlecase}}
+    </div>
+
+    <img class="coin-img" src="{{coin.image}}" alt="Card image cap" height="120px" width="120px">
+
+    <p class="coin-price">{{coin.current_price | currency }}</p>
+    <p>{{coin.market_cap}}</p>
+    <p>{{coin.market_cap_rank}}</p>
+
+    <p>{{coin.total_volume}}</p>
+    <p>{{coin.high_24h}}</p>
+    <p>{{coin.low_24h}}</p>
+    <p>{{coin.price_change_24h}}</p>
+    <p>{{coin.price_change_percentage_24h}}</p>
+
+
+    <p>{{coin.circulating_supply}}</p>
+    <p>{{coin.total_supply}}</p>
+
+
+    <p>{{coin.ath_change_percentage}}</p>
+
+
+    <p>{{coin.last_updated}}</p>
+  </div>
 </div>
