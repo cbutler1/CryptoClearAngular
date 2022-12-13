@@ -1,4 +1,31 @@
 <app-nav-bar [user]="user"></app-nav-bar>
-<div class="container p-3">
-  <p>{{ coinName }}</p>
+<div class="container p-3" *ngFor="let coin of selectedCoinInfo">
+  <th>{{coin.name | titlecase}}</th>
+  <th>{{coin.symbol}}</th>
+  <th>{{coin.id}}</th>
+  <th>{{coin.current_price}}</th>
+  <th>{{coin.market_cap}}</th>
+  <th>{{coin.market_cap_rank}}</th>
+  <th>{{coin.fully_diluted_valuation}}</th>
+  <th>{{coin.total_volume}}</th>
+  <th>{{coin.high_24h}}</th>
+  <th>{{coin.low_24h}}</th>
+  <th>{{coin.price_change_24h}}</th>
+  <th>{{coin.price_change_percentage_24h}}</th>
+  <th>{{coin.market_cap_change_24h}}</th>
+  <th>{{coin.market_cap_change_percentage_24h}}</th>
+  <th>{{coin.circulating_supply}}</th>
+  <th>{{coin.total_supply}}</th>
+  <th>{{coin.max_supply}}</th>
+  <th>{{coin.ath}}</th>
+  <th>{{coin.ath_change_percentage}}</th>
+  <th>{{coin.ath_date}}</th>
+  <th>{{coin.atl}}</th>
+  <th>{{coin.atl_change_percentage}}</th>
+  <th>{{coin.atl_date}}</th>
+  <th>{{coin.roi}}</th>
+  <th>{{coin.last_updated}}</th>
 </div>
+
+
+

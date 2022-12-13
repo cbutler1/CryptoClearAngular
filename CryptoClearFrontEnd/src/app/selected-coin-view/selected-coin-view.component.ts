@@ -4,6 +4,7 @@ import { User } from '../interfaces';
 import { AuthService } from '@auth0/auth0-angular';
 import { UserServiceService } from '../user-service.service';
 import { ActivatedRoute } from '@angular/router';
+import { CryptoServiceService } from '../crypto-service.service';
 
 @Component({
   selector: 'app-selected-coin-view',
@@ -12,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SelectedCoinViewComponent implements OnInit {
   @Input() user: User = {} as User;
-  selectedCoinInfo: Coin = {} as Coin;
+  selectedCoinInfo: Coin[] = [];
   coinName: string = '';
   currentUserId: any;
   userName: any;
@@ -20,12 +21,14 @@ export class SelectedCoinViewComponent implements OnInit {
   constructor(
     public auth: AuthService,
     private _userService: UserServiceService,
+    private _service: CryptoServiceService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.coinName = params['coinName'];
+      this.loadSelectedCoin();
     });
     this.auth.user$.subscribe((data) => {
       this.currentUserId = data?.sub?.split('|')[1];
@@ -57,4 +60,14 @@ export class SelectedCoinViewComponent implements OnInit {
     await new Promise((f) => setTimeout(f, 1000));
     this.loadUser();
   }
+
+  loadSelectedCoin = (): void => {
+    this._service.getCoinDetails(this.coinName).subscribe((data: Coin[]) => {
+      console.log(data);
+      this.selectedCoinInfo = data;
+      console.log(this.selectedCoinInfo);
+      
+    });
+  };
 }
+
