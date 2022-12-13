@@ -1,55 +1,151 @@
 <app-nav-bar [user]="user"></app-nav-bar>
 <div class="container p-3">
-  <h2>User's Portfolio</h2>
-  <table class="table table-hover">
-    <thead class="text-center">
-      <tr class="table-primary">
-        <th scope="col">Date</th>
-        <th scope="col">Coin</th>
-        <th scope="col">Quantity Held</th>
-        <th scope="col">Bought Price</th>
-        <th scope="col">Unit Price</th>
-        <th scope="col">Held Value</th>
-        <th scope="col">Change (%)</th>
-        <th scope="col">Sell Quantity</th>
-      </tr>
-    </thead>
-    <tbody class="text-center">
-      <tr *ngFor="let t of currentPortfolio">
-        <td>{{ t.transactionDate | date: 'shortDate' }}</td>
-        <td>{{ t.coinId | titlecase }}</td>
-        <td>{{ t.quantity | number: '.2-6' }}</td>
-        <td>
-          {{ t.purchasePrice | currency: 'USD':'symbol':'.2-6' }}
-        </td>
-        <td>
-          {{ getCurrentPrice(t.coinId) | currency: 'USD':'symbol':'.2-6' }}
-        </td>
-        <td>
-          {{
-            getCurrentPrice(t.coinId) * t.quantity
-              | currency: 'USD':'symbol':'.2-4'
-          }}
-        </td>
-        <td>
-          {{
-            (getCurrentPrice(t.coinId) * t.quantity - t.purchasePrice) /
-              t.purchasePrice | percent: '.2'
-          }}
-        </td>
-        <td class="text-center">
-          <button
-            class="btn btn-outline-danger"
-            data-bs-toggle="modal"
-            data-bs-target="#sellModal"
-            (click)="setActiveTransaction(t)"
+  <h2>My Crypto Wallet</h2>
+  <div
+    *ngIf="combinedTransactionPortfolio.length > 0"
+    class="accordion accordion-flush"
+    id="cobinedCoinAccordian"
+  >
+    <div
+      class="accordion-item"
+      *ngFor="let group of combinedTransactionPortfolio; let i = index"
+    >
+      <h2 class="accordion-header" id="flush-headingOne">
+        <button
+          class="accordion-button collapsed fs-4"
+          type="button"
+          data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#flush-' + i"
+          aria-expanded="false"
+          [attr.aria-controls]="'flush-' + i"
+        >
+          <a
+            class="fw-bold"
+            [routerLink]="['/coinDetails']"
+            [queryParams]="{ coinName: group.coinId }"
+            >{{ group.coinId | titlecase }}</a
           >
-            Sell
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+          &nbsp;-&nbsp;
+          {{
+            group.cumulativeQuantity * group.currentCoinPrice
+              | currency: 'USD':'symbol':'.2-6'
+          }}
+          (<span
+            class="fw-bold"
+            [ngStyle]="{
+              color:
+                ((group.cumulativeQuantity * group.currentCoinPrice -
+                  group.cumlativePurchasePrice) /
+                  (group.cumulativeQuantity * group.currentCoinPrice)) *
+                  100 >=
+                0
+                  ? '#00bc8c'
+                  : '#e74c3c'
+            }"
+            >{{
+              ((group.cumulativeQuantity * group.currentCoinPrice -
+                group.cumlativePurchasePrice) /
+                (group.cumulativeQuantity * group.currentCoinPrice)) *
+                100 | number: '.0-3'
+            }}%</span
+          >
+          )
+        </button>
+      </h2>
+      <div
+        [attr.id]="'flush-' + i"
+        class="accordion-collapse collapse"
+        [attr.aria-labelledby]="'flush-heading-' + i"
+        data-bs-parent="#cobinedCoinAccordian"
+      >
+        <div class="accordion-body">
+          <div
+            class="row row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 g-3"
+          >
+            <div class="col" *ngFor="let t of group.coinTransactions">
+              <div class="card h-100 p-3">
+                <div class="row d-flex flex-column">
+                  <div class="card-title text-center fs-4">
+                    {{ t.transactionDate | date: 'mediumDate' }}
+                  </div>
+                </div>
+                <div class="row g-0">
+                  <div class="border-start border-2 border-success my-3">
+                    <div class="card-body fs-5 px-2">
+                      <div class="row">
+                        <h5 class="card-text">Quantity:</h5>
+                        <p class="card-text">
+                          {{ t.quantity | number: '.2-6' }}
+                        </p>
+                        <h5 class="card-text">Purchase Price:</h5>
+                        <p class="card-text">
+                          {{
+                            t.purchasePrice | currency: 'USD':'symbol':'.2-6'
+                          }}
+                        </p>
+                        <h5 class="card-text">Current Unit Price:</h5>
+                        <p class="card-text">
+                          {{
+                            getCurrentPrice(t.coinId)
+                              | currency: 'USD':'symbol':'.2-6'
+                          }}
+                        </p>
+
+                        <h5 class="card-text">Current Value:</h5>
+                        <p class="card-text">
+                          {{
+                            getCurrentPrice(t.coinId) * t.quantity
+                              | currency: 'USD':'symbol':'.2-4'
+                          }}
+                        </p>
+                        <h5 class="card-text">Change(%):</h5>
+                        <p class="card-text">
+                          <span
+                            class="fw-bold"
+                            [ngStyle]="{
+                              color:
+                                ((t.quantity * group.currentCoinPrice -
+                                  t.purchasePrice) /
+                                  (t.quantity * group.currentCoinPrice)) *
+                                  100 >=
+                                0
+                                  ? '#00bc8c'
+                                  : '#e74c3c'
+                            }"
+                            >{{
+                              ((group.cumulativeQuantity *
+                                group.currentCoinPrice -
+                                group.cumlativePurchasePrice) /
+                                (group.cumulativeQuantity *
+                                  group.currentCoinPrice)) *
+                                100 | number: '.0-4'
+                            }}%</span
+                          >
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mx-auto mt-auto">
+                  <button
+                    *ngIf="auth.isAuthenticated$ | async"
+                    class="btn btn-outline-danger px-5 fw-bold"
+                    data-bs-toggle="modal"
+                    data-bs-target="#sellModal"
+                    (click)="setActiveTransaction(t)"
+                  >
+                    Sell
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- modal selling -->
