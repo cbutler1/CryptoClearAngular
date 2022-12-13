@@ -1,30 +1,39 @@
 <app-nav-bar [user]="user"></app-nav-bar>
 <div class="container p-3" *ngFor="let coin of selectedCoinInfo">
-  <th>{{coin.name | titlecase}}</th>
-  <th>{{coin.symbol}}</th>
-  <th>{{coin.id}}</th>
-  <th>{{coin.current_price}}</th>
-  <th>{{coin.market_cap}}</th>
-  <th>{{coin.market_cap_rank}}</th>
-  <th>{{coin.fully_diluted_valuation}}</th>
-  <th>{{coin.total_volume}}</th>
-  <th>{{coin.high_24h}}</th>
-  <th>{{coin.low_24h}}</th>
-  <th>{{coin.price_change_24h}}</th>
-  <th>{{coin.price_change_percentage_24h}}</th>
-  <th>{{coin.market_cap_change_24h}}</th>
-  <th>{{coin.market_cap_change_percentage_24h}}</th>
-  <th>{{coin.circulating_supply}}</th>
-  <th>{{coin.total_supply}}</th>
-  <th>{{coin.max_supply}}</th>
-  <th>{{coin.ath}}</th>
-  <th>{{coin.ath_change_percentage}}</th>
-  <th>{{coin.ath_date}}</th>
-  <th>{{coin.atl}}</th>
-  <th>{{coin.atl_change_percentage}}</th>
-  <th>{{coin.atl_date}}</th>
-  <th>{{coin.roi}}</th>
-  <th>{{coin.last_updated}}</th>
+  <p>{{coin.name | titlecase}}</p>
+  <img 
+    class=""
+    src="{{coin.image}}"
+    alt="Card image cap"
+    height="120px"
+    width="120px"
+    />
+
+  <p>{{coin.id}} </p>
+  <p text>{{coin.current_price}} Current Price</p>
+  <p>{{coin.market_cap}} Market Cap</p>
+  <p>{{coin.market_cap_rank}} Market Cap Rank </p>
+  <p>{{coin.fully_diluted_valuation}} fully diluted valuation</p>
+  <p>{{coin.total_volume}} total volume</p>
+  <p>{{coin.high_24h}} 24 hour high</p>
+  <p>{{coin.low_24h}} 24 hour low</p>
+  <p>{{coin.price_change_24h}} Price Change 24 hour</p>
+  <p>{{coin.price_change_percentage_24h}} price change 24 hour % </p>
+  <p>{{coin.market_cap_change_24h}} market cap change 24 hour</p>
+  <p>{{coin.market_cap_change_percentage_24h}} market cap change 24 hour %</p>
+  <p>{{coin.circulating_supply}} Circulating supply</p>
+  <p>{{coin.total_supply}} total supply</p>
+  <p>{{coin.max_supply}} max supply </p>
+  <p>{{coin.ath}} ath </p>
+  <p>{{coin.ath_change_percentage}} ath change %</p>
+  <p>{{coin.ath_date}} ath date</p>
+  <p>{{coin.atl}} atl </p>
+  <p>{{coin.atl_change_percentage}}</p>
+  <p>{{coin.atl_date}} atl date</p>
+  <p>{{coin.roi}} coin ROI</p>
+  <p>{{coin.last_updated}} last updated
+
+  </p>
 </div>
 
 
