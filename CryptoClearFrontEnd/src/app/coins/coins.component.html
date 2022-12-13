@@ -41,7 +41,7 @@
               <div class="row">
                 <h5 class="card-text">Price Change:</h5>
                 <p class="card-text">
-                  {{ c.price_change_24h | currency: 'USD':'symbol':'.2-6' }}
+                  {{ c.price_change_24h | currency: 'USD':'symbol':'.2-8' }}
                   (<span
                     class="fw-bold"
                     [ngStyle]="{
@@ -57,7 +57,7 @@
                 </p>
                 <h5 class="card-text">Current Price:</h5>
                 <p class="card-text">
-                  {{ c.current_price | currency: 'USD':'symbol':'.2-6' }}
+                  {{ c.current_price | currency: 'USD':'symbol':'.2-8' }}
                 </p>
               </div>
             </div>
@@ -105,7 +105,7 @@
         <h5>{{ activeCoin.name }}</h5>
         <p>
           Current Price:
-          {{ activeCoin.current_price | currency: 'USD':'symbol':'.2-6' }}
+          {{ activeCoin.current_price | currency: 'USD':'symbol':'.2-8' }}
         </p>
         <div class="form-group">
           <label class="col-form-label mt-2" for="inputDefault">
@@ -129,9 +129,9 @@
         >
           <h6>
             Do you wish to purchase
-            {{ desiredCoinAmount / activeCoin.current_price | number: '.2-6' }}
+            {{ desiredCoinAmount / activeCoin.current_price | number: '.2-8' }}
             {{ activeCoin.name }} for
-            {{ desiredCoinAmount | currency: 'USD':'symbol':'.2-6' }}?
+            {{ desiredCoinAmount | currency: 'USD':'symbol':'.2-8' }}?
           </h6>
         </div>
         <div
@@ -166,5 +166,5 @@
       </div>
     </div>
   </div>
-  <
+  
 </div>
