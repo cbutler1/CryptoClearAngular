@@ -69,7 +69,7 @@
             *ngIf="auth.isAuthenticated$ | async"
             class="btn btn-outline-success px-5 fw-bold"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
+            data-bs-target="#buyModal"
             (click)="setActiveCoin(c)"
           >
             Buy
@@ -84,7 +84,7 @@
 
 <div
   class="modal fade"
-  id="exampleModal"
+  id="buyModal"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
