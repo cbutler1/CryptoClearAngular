@@ -25,12 +25,15 @@
             [queryParams]="{ coinName: group.coinId }"
             >{{ group.coinId | titlecase }}</a
           >
+          &nbsp;
 
-          &nbsp;-&nbsp;
-          {{
-            group.cumulativeQuantity * group.currentCoinPrice
-              | currency: 'USD':'symbol':'.2-6'
-          }}
+          <span class="d-none d-sm-block">
+            -&nbsp;
+            {{
+              group.cumulativeQuantity * group.currentCoinPrice
+                | currency: 'USD':'symbol':'.2-6'
+            }}
+          </span>
           (<span
             class="fw-bold"
             [ngStyle]="{
