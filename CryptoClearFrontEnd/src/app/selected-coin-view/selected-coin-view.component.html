@@ -6,6 +6,8 @@
       <table class="coin-price-table">
         <div class="coin-header">{{coin.name | titlecase}}
           <div class="coin-price-table coin-price ">
+            CHART
+            <canvas>chart </canvas>
             <td>
               <ul>{{coin.current_price | currency }}</ul>
               <ul class="coin-price-table">{{coin.price_change_24h | percent}}</ul>
