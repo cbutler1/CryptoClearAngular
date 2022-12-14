@@ -1,40 +1,47 @@
 <app-nav-bar [user]="user"></app-nav-bar>
-<div class="container p-3" *ngFor="let coin of selectedCoinInfo">
-  <p>{{coin.name | titlecase}}</p>
-  <img 
-    class=""
-    src="{{coin.image}}"
-    alt="Card image cap"
-    height="120px"
-    width="120px"
-    />
+<div>
+  <div *ngFor="let coin of selectedCoinInfo">
+    <img class="coin-img" src="{{coin.image}}" alt="Card image cap" height="120px" width="120px">
+    <div class="container-coin-view">
+      <table class="coin-price-table">
+        <div class="coin-header">{{coin.name | titlecase}}
+          <div class="coin-price-table coin-price ">
+            <td>
+              <ul>{{coin.current_price | currency }}</ul>
+              <ul class="coin-price-table">{{coin.price_change_24h | percent}}</ul>
+            </td>
+          </div>
+          <div class="coin-rank">
+            <td>
+              <ul>Max Number of Coins</ul>
+              <ul>{{coin.market_cap | number}}</ul>
+            </td>
+            <td>
+              <ul>Coin Rank</ul>
+              <ul> {{coin.market_cap_rank |number}}</ul>
+            <td>
+            <td>
+              <ul>24 Hour</ul>
+              <ul>{{coin.total_volume | number}}</ul>
+            </td>
 
-  <p>{{coin.id}} </p>
-  <p text>{{coin.current_price}} Current Price</p>
-  <p>{{coin.market_cap}} Market Cap</p>
-  <p>{{coin.market_cap_rank}} Market Cap Rank </p>
-  <p>{{coin.fully_diluted_valuation}} fully diluted valuation</p>
-  <p>{{coin.total_volume}} total volume</p>
-  <p>{{coin.high_24h}} 24 hour high</p>
-  <p>{{coin.low_24h}} 24 hour low</p>
-  <p>{{coin.price_change_24h}} Price Change 24 hour</p>
-  <p>{{coin.price_change_percentage_24h}} price change 24 hour % </p>
-  <p>{{coin.market_cap_change_24h}} market cap change 24 hour</p>
-  <p>{{coin.market_cap_change_percentage_24h}} market cap change 24 hour %</p>
-  <p>{{coin.circulating_supply}} Circulating supply</p>
-  <p>{{coin.total_supply}} total supply</p>
-  <p>{{coin.max_supply}} max supply </p>
-  <p>{{coin.ath}} ath </p>
-  <p>{{coin.ath_change_percentage}} ath change %</p>
-  <p>{{coin.ath_date}} ath date</p>
-  <p>{{coin.atl}} atl </p>
-  <p>{{coin.atl_change_percentage}}</p>
-  <p>{{coin.atl_date}} atl date</p>
-  <p>{{coin.roi}} coin ROI</p>
-  <p>{{coin.last_updated}} last updated
-
-  </p>
-</div>
-
-
-
+            <td>
+              Coin Price High
+              <ul>{{coin.high_24h | currency }}</ul>
+            </td>
+            <td>
+              <ul>24 hour low</ul>
+              <ul>{{coin.low_24h | currency}}</ul>
+            </td>
+            <td>
+              <ul>Price Change 24 Hour</ul>
+              <ul>{{coin.price_change_24h | percent}}</ul>
+            </td>
+            <td>
+              <ul>% Change 24 Hour</ul>
+              <ul>{{coin.price_change_percentage_24h | percent}}</ul>
+            </td>
+          </div>
+        </div>
+      </table>
+    </div>
