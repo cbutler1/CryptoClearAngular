@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
-import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
 import { Transaction, User } from '../interfaces';
 import { Coin } from '../interfaces-coins';

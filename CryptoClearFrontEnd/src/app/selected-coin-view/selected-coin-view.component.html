@@ -1,57 +1,63 @@
 <app-nav-bar [user]="user"></app-nav-bar>
-<div>
+<div class="container">
   <div *ngFor="let coin of selectedCoinInfo">
     <div>
       <div *ngFor="let coin of selectedCoinInfo">
-        <div class="container-coin-view">
-          <table class="coin-price-table">
-            <div>
-              <table>
-                <div>
-                  <img class="coin-img" src="{{coin.image}}" alt="Card image cap" height="120px" width="120px">
-                  <div class="coin-header">{{coin.name | titlecase}}</div>
-                </div>
-              </table>
-              
-              <div class="price-table">
-                <div style="position: relative;">
-                  {{coin.current_price | currency }}
-                </div>
-                <div>
-                  {{coin.price_change_24h | percent}}
-                </div>
-              </div>
-              <div class="coin-rank">
-                <td>
-                  <ul>Max Number of Coins</ul>
-                  <ul>{{coin.market_cap | number}}</ul>
-                </td>
-                <td>
-                  <ul>Coin Rank</ul>
-                  <ul> {{coin.market_cap_rank |number}}</ul>
-                <td>
-                <td>
-                  <ul>24 Hour</ul>
-                  <ul>{{coin.total_volume | number}}</ul>
-                </td>
+        <div class="container-coin-view p-3">
+          <div class="m-auto">
+            <div class="text-center">
+              <img
+                class="coin-img"
+                src="{{ coin.image }}"
+                alt="Card image cap"
+                height="120px"
+                width="120px"
+              />
+              <div class="coin-header">{{ coin.name | titlecase }}</div>
+            </div>
 
-                <td>
-                  <ul>Coin Price High</ul>
-                  <ul>{{coin.high_24h | currency }}</ul>
-                </td>
-                <td>
-                  <ul>24 hour low</ul>
-                  <ul>{{coin.low_24h | currency}}</ul>
-                </td>
-                <td>
-                  <ul>Price Change 24 Hour</ul>
-                  <ul>{{coin.price_change_24h | percent}}</ul>
-                </td>
-                <td>
-                  <ul>% Change 24 Hour</ul>
-                  <ul>{{coin.price_change_percentage_24h | percent}}</ul>
-                </td>
+            <div class="price-table">
+              <div style="position: relative">
+                {{ coin.current_price | currency }}
+              </div>
+              <div>
+                {{ coin.price_change_24h | percent }}
               </div>
             </div>
-          </table>
+            <div class="d-flex justify-content-around fs-5 p-3">
+              <div class="d-flex flex-column align-items-center">
+                <div class="mb-2">Max Number of Coins</div>
+                <div>{{ coin.market_cap | number }}</div>
+              </div>
+              <div class="d-flex flex-column align-items-center">
+                <div class="mb-2">Coin Rank</div>
+                <div>{{ coin.market_cap_rank | number }}</div>
+              </div>
+              <div class="d-flex flex-column align-items-center">
+                <div class="mb-2">24 Hour</div>
+                <div>{{ coin.total_volume | number }}</div>
+              </div>
+
+              <div class="d-flex flex-column align-items-center">
+                <div class="mb-2">Coin Price High</div>
+                <div>{{ coin.high_24h | currency }}</div>
+              </div>
+              <div class="d-flex flex-column align-items-center">
+                <div class="mb-2">24 hour low</div>
+                <div>{{ coin.low_24h | currency }}</div>
+              </div>
+              <div class="d-flex flex-column align-items-center">
+                <div class="mb-2">Price Change 24 Hour</div>
+                <div>{{ coin.price_change_24h | percent }}</div>
+              </div>
+              <div class="d-flex flex-column align-items-center">
+                <div class="mb-2">% Change 24 Hour</div>
+                <div>{{ coin.price_change_percentage_24h | percent }}</div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>

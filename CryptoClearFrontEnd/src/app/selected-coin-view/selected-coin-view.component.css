@@ -1,41 +1,36 @@
-.coin-header{
-    text-align: center;
-    font-size: 50px;
-    justify-content: center;
+.coin-header {
+  text-align: center;
+  font-size: 50px;
+  justify-content: center;
 }
 
 .coin-img {
-    text-align: left;
-    height: 120px;
-    width: 120px;
+  text-align: left;
+  height: 120px;
+  width: 120px;
 }
 
-.coin-price-table{
-    text-align: center;
-    font-size: 35px;
+.coin-price-table {
+  text-align: center;
+  font-size: 35px;
 }
 
-.container-coin-view{
-    margin: auto;
-    align-self: center;
-    width: 75%;
-    display: block ;
-    height: 70%;
-    background-color: rgb(31, 29, 36);
+.container-coin-view {
+  background-color: rgb(31, 29, 36);
 }
 
-.coin-rank{
-        text-align: center;
-        font-size: 20px;
+.coin-rank {
+  text-align: center;
+  font-size: 20px;
 }
 
-.price-table{
-    margin: auto;
-    width: 30%;
-    padding: 10px;
-    font-size: 1.4rem;
-    display: flex;
-    justify-content: space-around;
+.price-table {
+  margin: auto;
+  width: 30%;
+  padding: 10px;
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: space-around;
 }
 
 /* .additional-coin-information{
