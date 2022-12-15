@@ -12,7 +12,7 @@
 
 .coin-price-table{
     text-align: center;
-    font-size: 15px;
+    font-size: 35px;
 }
 
 .container-coin-view{
@@ -20,7 +20,7 @@
     align-self: center;
     width: 75%;
     display: block ;
-    height: 50%;
+    height: 70%;
     background-color: rgb(31, 29, 36);
 }
 
@@ -29,3 +29,16 @@
         font-size: 20px;
 }
 
+.price-table{
+    margin: auto;
+    width: 30%;
+    padding: 10px;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* .additional-coin-information{
+    justify-content: space-around;
+    
+} */

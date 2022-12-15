@@ -5,7 +5,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { UserServiceService } from '../user-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { CryptoServiceService } from '../crypto-service.service';
-import { Chart } from '@syncfusion/ej2-ng-charts';
+
 
 @Component({
   selector: 'app-selected-coin-view',

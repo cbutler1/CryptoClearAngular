@@ -1,49 +1,57 @@
 <app-nav-bar [user]="user"></app-nav-bar>
 <div>
   <div *ngFor="let coin of selectedCoinInfo">
-<div>
-  <div *ngFor="let coin of selectedCoinInfo">
-    <img class="coin-img" src="{{coin.image}}" alt="Card image cap" height="120px" width="120px">
-    <div class="container-coin-view">
-      <table class="coin-price-table">
-        <div class="coin-header">{{coin.name | titlecase}}
-          <div class="coin-price-table coin-price ">
-            <td>
-              <ul>{{coin.current_price | currency }}</ul>
-              <ul class="coin-price-table">{{coin.price_change_24h | percent}}</ul>
-            </td>
-          </div>
-          <div class="coin-rank">
-            <td>
-              <ul>Max Number of Coins</ul>
-              <ul>{{coin.market_cap | number}}</ul>
-            </td>
-            <td>
-              <ul>Coin Rank</ul>
-              <ul> {{coin.market_cap_rank |number}}</ul>
-            <td>
-            <td>
-              <ul>24 Hour</ul>
-              <ul>{{coin.total_volume | number}}</ul>
-            </td>
+    <div>
+      <div *ngFor="let coin of selectedCoinInfo">
+        <div class="container-coin-view">
+          <table class="coin-price-table">
+            <div>
+              <table>
+                <div>
+                  <img class="coin-img" src="{{coin.image}}" alt="Card image cap" height="120px" width="120px">
+                  <div class="coin-header">{{coin.name | titlecase}}</div>
+                </div>
+              </table>
+              
+              <div class="price-table">
+                <div style="position: relative;">
+                  {{coin.current_price | currency }}
+                </div>
+                <div>
+                  {{coin.price_change_24h | percent}}
+                </div>
+              </div>
+              <div class="coin-rank">
+                <td>
+                  <ul>Max Number of Coins</ul>
+                  <ul>{{coin.market_cap | number}}</ul>
+                </td>
+                <td>
+                  <ul>Coin Rank</ul>
+                  <ul> {{coin.market_cap_rank |number}}</ul>
+                <td>
+                <td>
+                  <ul>24 Hour</ul>
+                  <ul>{{coin.total_volume | number}}</ul>
+                </td>
 
-            <td>
-              Coin Price High
-              <ul>{{coin.high_24h | currency }}</ul>
-            </td>
-            <td>
-              <ul>24 hour low</ul>
-              <ul>{{coin.low_24h | currency}}</ul>
-            </td>
-            <td>
-              <ul>Price Change 24 Hour</ul>
-              <ul>{{coin.price_change_24h | percent}}</ul>
-            </td>
-            <td>
-              <ul>% Change 24 Hour</ul>
-              <ul>{{coin.price_change_percentage_24h | percent}}</ul>
-            </td>
-          </div>
+                <td>
+                  <ul>Coin Price High</ul>
+                  <ul>{{coin.high_24h | currency }}</ul>
+                </td>
+                <td>
+                  <ul>24 hour low</ul>
+                  <ul>{{coin.low_24h | currency}}</ul>
+                </td>
+                <td>
+                  <ul>Price Change 24 Hour</ul>
+                  <ul>{{coin.price_change_24h | percent}}</ul>
+                </td>
+                <td>
+                  <ul>% Change 24 Hour</ul>
+                  <ul>{{coin.price_change_percentage_24h | percent}}</ul>
+                </td>
+              </div>
+            </div>
+          </table>
         </div>
-      </table>
-    </div>

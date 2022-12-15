@@ -1,6 +1,6 @@
 <app-nav-bar [user]="user"></app-nav-bar>
 <div class="container p-3">
-  <form class="d-flex m-auto mb-3" style="max-width: 600px">
+  <!-- <form class="d-flex m-auto mb-3" style="max-width: 600px">
     <input
       class="form-control mx-2"
       type="text"
@@ -10,7 +10,7 @@
       [(ngModel)]="searchQuery"
     />
     <button class="btn btn-success fw-bold" type="submit">Search</button>
-  </form>
+  </form> -->
   <h2>Top 20 Coins:</h2>
   <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 g-3">
     <div class="col" *ngFor="let c of topTwentyCoins">
