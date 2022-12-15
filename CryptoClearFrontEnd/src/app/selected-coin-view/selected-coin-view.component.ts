@@ -25,7 +25,7 @@ export class SelectedCoinViewComponent implements OnInit {
     private _userService: UserServiceService,
     private _service: CryptoServiceService,
     private route: ActivatedRoute,
-    public chart: Chart
+    // public chart: Chart
   ) {}
 
   ngOnInit() {
