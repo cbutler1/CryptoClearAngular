@@ -6,19 +6,19 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
 import { ResourcesComponent } from './resources/resources.component';
 import { SelectedCoinViewComponent } from './selected-coin-view/selected-coin-view.component';
 
+
 const routes: Routes = [
   { path: 'coins', component: CoinsComponent },
-  { path: 'portfolio', component: PortfolioComponent },
+  { path: 'wallet', component: PortfolioComponent },
   { path: 'resources', component: ResourcesComponent },
-  { path: 'coinDetails', component: SelectedCoinViewComponent},
+  { path: 'coinDetails', component: SelectedCoinViewComponent },
   { path: '', component: CoinsComponent },
-  
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { 
+export class AppRoutingModule {
   @Input() user: User = {} as User;
 }

@@ -1,6 +1,8 @@
 <app-nav-bar [user]="user"></app-nav-bar>
 <div>
   <div *ngFor="let coin of selectedCoinInfo">
+<div>
+  <div *ngFor="let coin of selectedCoinInfo">
     <img class="coin-img" src="{{coin.image}}" alt="Card image cap" height="120px" width="120px">
     <div class="container-coin-view">
       <table class="coin-price-table">

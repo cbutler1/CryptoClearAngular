@@ -5,11 +5,13 @@ import { AuthService } from '@auth0/auth0-angular';
 import { UserServiceService } from '../user-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { CryptoServiceService } from '../crypto-service.service';
+import { Chart } from '@syncfusion/ej2-ng-charts';
 
 @Component({
   selector: 'app-selected-coin-view',
   templateUrl: './selected-coin-view.component.html',
   styleUrls: ['./selected-coin-view.component.css'],
+
 })
 export class SelectedCoinViewComponent implements OnInit {
   @Input() user: User = {} as User;
@@ -22,7 +24,8 @@ export class SelectedCoinViewComponent implements OnInit {
     public auth: AuthService,
     private _userService: UserServiceService,
     private _service: CryptoServiceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    // public chart: Chart
   ) {}
 
   ngOnInit() {
