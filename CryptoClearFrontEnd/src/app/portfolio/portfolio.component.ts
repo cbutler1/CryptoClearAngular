@@ -5,6 +5,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { AppComponent } from '../app.component';
 import { CryptoServiceService } from '../crypto-service.service';
 import { CombinedTransactions, Transaction, User } from '../interfaces';
+import { Coin } from '../interfaces-coins';
 import { UserServiceService } from '../user-service.service';
 //#endregion
 
@@ -23,6 +24,7 @@ export class PortfolioComponent implements OnInit {
   currentPortfolioCoinPrices: any;
   activeTransaction: Transaction = {} as Transaction;
   desiredSellAmount: number = 0;
+  cardCoin: Coin = {} as Coin;
 
   combinedTransactionPortfolio: CombinedTransactions[] = [];
 
@@ -89,7 +91,7 @@ export class PortfolioComponent implements OnInit {
       this.currentPortfolio = data;
       this.generateCoinList(this.currentPortfolio);
     });
-    await new Promise((f) => setTimeout(f, 1000));
+    await new Promise((f) => setTimeout(f, 1200));
     this.filterCombinedTransactions(this.currentPortfolioCoins);
     this.dataLoaded = Promise.resolve(true);
     console.log(this.combinedTransactionPortfolio);
@@ -157,7 +159,8 @@ export class PortfolioComponent implements OnInit {
       });
       cTrans.netCoinValue = cTrans.cumulativeQuantity * cTrans.currentCoinPrice;
 
-      this.combinedTransactionPortfolio.push(cTrans);
+      if (cTrans.coinTransactions.length > 0)
+        this.combinedTransactionPortfolio.push(cTrans);
       cTrans = {} as CombinedTransactions;
     });
   };
@@ -194,12 +197,16 @@ export class PortfolioComponent implements OnInit {
       this.user.liquidCash + this.desiredSellAmount
     );
     this.desiredSellAmount = 0;
-    // this.loadUser();
+    this.combinedTransactionPortfolio = [];
     this.reloadPage();
   };
 
+  accordianLabel = (s: string, i: number): string => {
+    return `s${i}`;
+  };
+
   async reloadPage() {
-    await new Promise((f) => setTimeout(f, 500));
+    await new Promise((f) => setTimeout(f, 1000));
     // await window.location.replace('http://localhost:4200/portfolio');
     await this.loadUser();
   }
